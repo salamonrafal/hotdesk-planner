@@ -1,6 +1,6 @@
 using System;
 
-namespace Hotdesk.Api
+namespace Api
 {
     public class WeatherForecast
     {
