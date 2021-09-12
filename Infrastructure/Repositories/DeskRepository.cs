@@ -5,7 +5,7 @@ using MongoDB.Driver;
 
 namespace Infrastructure.Repositories
 {
-    public class DeskRepository<TClass> : IRepository<TClass> where TClass: class
+    public class DeskRepository<TClass> : IRepository<TClass> where TClass : class
     {
         private readonly IMongoDatabase _database;
         private readonly string _collection;

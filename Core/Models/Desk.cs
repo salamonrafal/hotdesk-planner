@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace Core.Models
 {
-    public class Desk: BaseModel
+    public class Desk : BaseModel
     {
         [BsonElement("description")]
         [BsonRepresentation(BsonType.String)]
@@ -17,6 +16,6 @@ namespace Core.Models
         public List<Reservation> Reservations { get; set; }
         [BsonElement("is_blocked")]
         [BsonRepresentation(BsonType.Boolean)]
-        public bool IsBlocked { set; get; } 
+        public bool IsBlocked { set; get; }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using Core.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -13,7 +10,7 @@ namespace Api.Controllers
     public class DesksController : ControllerBase
     {
         [HttpGet]
-        public List<Desk> Get ()
+        public List<Desk> Get()
         {
             return new List<Desk>() { };
         }
@@ -47,7 +44,7 @@ namespace Api.Controllers
         [Route("search")]
         public List<Desk> Search([FromBody] Desk searcgQuery)
         {
-            return new List<Desk>(); 
+            return new List<Desk>();
         }
     }
 }

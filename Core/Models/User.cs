@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Core.Models
 {
-    public class User: BaseModel
+    public class User : BaseModel
     {
         public string Name { get; set; }
         public string Surname { get; set; }

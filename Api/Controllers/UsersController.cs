@@ -1,10 +1,7 @@
 ﻿using Core.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -13,7 +10,7 @@ namespace Api.Controllers
     public class UsersController : ControllerBase
     {
         [HttpGet]
-        public List<User> Get ()
+        public List<User> Get()
         {
             return new List<User>() { };
         }
@@ -38,7 +35,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
-        public void Delete([FromBody] User  user)
+        public void Delete([FromBody] User user)
         {
 
         }
@@ -47,7 +44,7 @@ namespace Api.Controllers
         [Route("search")]
         public List<User> Search([FromBody] User searcgQuery)
         {
-            return new List<User>(); 
+            return new List<User>();
         }
     }
 }

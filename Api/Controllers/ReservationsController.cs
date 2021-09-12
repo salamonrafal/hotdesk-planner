@@ -1,10 +1,7 @@
 ﻿using Core.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -13,7 +10,7 @@ namespace Api.Controllers
     public class ReservationsController : ControllerBase
     {
         [HttpGet]
-        public List<Reservation> Get ()
+        public List<Reservation> Get()
         {
             return new List<Reservation>() { };
         }
@@ -47,7 +44,7 @@ namespace Api.Controllers
         [Route("search")]
         public List<Reservation> Search([FromBody] Localization searcgQuery)
         {
-            return new List<Reservation>(); 
+            return new List<Reservation>();
         }
     }
 }

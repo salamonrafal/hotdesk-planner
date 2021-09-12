@@ -8,7 +8,7 @@ namespace Core.Helpers
     {
         public static void GenerateUuid(this BaseModel model)
         {
-            model.Id = Guid.NewGuid(); 
+            model.Id = Guid.NewGuid();
         }
     }
 }

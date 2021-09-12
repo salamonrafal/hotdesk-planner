@@ -2,7 +2,7 @@
 
 namespace Core.Models
 {
-    public class Reservation: BaseModel
+    public class Reservation : BaseModel
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

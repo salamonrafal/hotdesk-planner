@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace Infrastructure.Repositories
 {
-    class LocalizationRepository<TClass> : IRepository<TClass> where TClass: class
+    class LocalizationRepository<TClass> : IRepository<TClass> where TClass : class
     {
         private readonly IMongoDatabase _database;
         private readonly string _collection;

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Core.Models
+﻿namespace Core.Models
 {
-    public class Localization: BaseModel
+    public class Localization : BaseModel
     {
         public int Floor { get; set; }
         public string Outbuilding { get; set; }

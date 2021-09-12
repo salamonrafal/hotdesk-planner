@@ -1,10 +1,7 @@
 ﻿using Core.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -13,7 +10,7 @@ namespace Api.Controllers
     public class LocalizationsController : ControllerBase
     {
         [HttpGet]
-        public List<Localization> Get ()
+        public List<Localization> Get()
         {
             return new List<Localization>() { };
         }
@@ -47,7 +44,7 @@ namespace Api.Controllers
         [Route("search")]
         public List<Localization> Search([FromBody] Localization searcgQuery)
         {
-            return new List<Localization>(); 
+            return new List<Localization>();
         }
     }
 }
