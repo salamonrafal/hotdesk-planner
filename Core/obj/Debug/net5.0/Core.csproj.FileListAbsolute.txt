@@ -1,0 +1,12 @@
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\bin\Debug\net5.0\Core.deps.json
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\bin\Debug\net5.0\Core.dll
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\bin\Debug\net5.0\ref\Core.dll
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\bin\Debug\net5.0\Core.pdb
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\Core.csproj.AssemblyReference.cache
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\Core.AssemblyInfoInputs.cache
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\Core.AssemblyInfo.cs
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\Core.csproj.CoreCompileInputs.cache
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\Core.dll
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\ref\Core.dll
+C:\Users\rafcio0584\source\repos\hotdesk-planner\Core\obj\Debug\net5.0\Core.pdb
