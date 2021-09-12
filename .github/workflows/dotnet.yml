@@ -21,5 +21,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+      env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
     - name: Test
       run: dotnet test --no-build --verbosity normal

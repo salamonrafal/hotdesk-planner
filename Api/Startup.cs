@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using System;
 
 namespace Api
 {
@@ -32,8 +33,8 @@ namespace Api
             services.AddSingleton(c =>
             {
                 var template = Configuration.GetSection("Database:ConnectionString").Value;
-                var user = Configuration.GetSection("Database:User").Value;
-                var password = Configuration.GetSection("Database:Password").Value;
+                var user = Configuration.GetSection("Database:User").Value == "" ? Environment.GetEnvironmentVariable("DB_USER") : Configuration.GetSection("Database:User").Value;
+                var password = Configuration.GetSection("Database:Password").Value == "" ? Environment.GetEnvironmentVariable("DB_PASSWORD") : Configuration.GetSection("Database:Password").Value;
                 var server = Configuration.GetSection("Database:Server").Value;
                 var database = Configuration.GetSection("Database:hotdesk_planner").Value;
 
