@@ -1,9 +1,10 @@
 ﻿using Core.Infrastructure;
+using Core.Models;
 using MongoDB.Driver;
 
 namespace Infrastructure.Repositories
 {
-    class UserRepository<TClass> : IRepository<TClass> where TClass : class
+    class UserRepository<TClass> : IRepository<TClass> where TClass : Desk
     {
         private readonly IMongoDatabase _database;
         private readonly string _collection;

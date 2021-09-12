@@ -1,4 +1,6 @@
 ﻿using Core.Infrastructure;
+using Core.Options;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace Infrastructure.Repositories
@@ -7,10 +9,12 @@ namespace Infrastructure.Repositories
     {
         private readonly IMongoDatabase _database;
         private readonly string _collection;
+        private readonly DatabaseOptions _options;
 
-        public DeskRepository(IMongoClient client)
+        public DeskRepository(IMongoClient client, IOptions<DatabaseOptions> options)
         {
-            _database = client.GetDatabase("hotdesk_planner");
+            _options = options.Value;
+            _database = client.GetDatabase(_options.Database);
             _collection = "desks";
         }
 
