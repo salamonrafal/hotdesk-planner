@@ -8,46 +8,46 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
-    [Route("api/v1/desks")]
+    [Route("api/v1/users")]
     [ApiController]
-    public class DesksController : ControllerBase
+    public class UsersController : ControllerBase
     {
         [HttpGet]
-        public List<Desk> Get ()
+        public List<User> Get ()
         {
-            return new List<Desk>() { };
+            return new List<User>() { };
         }
 
         [HttpGet]
-        [Route("{deskId}")]
-        public Desk GetById([FromRoute] int deskId)
+        [Route("{userId}")]
+        public User GetById([FromRoute] int userId)
         {
-            return new Desk() { };
+            return new User() { };
         }
 
         [HttpPut]
-        public Guid Insert([FromBody] Desk desk)
+        public Guid Insert([FromBody] User user)
         {
             return Guid.Empty;
         }
 
         [HttpPatch]
-        public void Update([FromBody] Desk desk)
+        public void Update([FromBody] User user)
         {
 
         }
 
         [HttpDelete]
-        public void Delete([FromBody] Desk desk)
+        public void Delete([FromBody] User  user)
         {
 
         }
 
         [HttpPost]
         [Route("search")]
-        public List<Desk> Search([FromBody] Desk searcgQuery)
+        public List<User> Search([FromBody] User searcgQuery)
         {
-            return new List<Desk>(); 
+            return new List<User>(); 
         }
     }
 }

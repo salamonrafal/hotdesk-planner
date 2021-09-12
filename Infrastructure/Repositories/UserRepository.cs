@@ -1,9 +1,18 @@
 ﻿using Core.Infrastructure;
+using MongoDB.Driver;
 
 namespace Infrastructure.Repositories
 {
-    class UserRepository<TClass> : IRepository<TClass>
+    class UserRepository<TClass> : IRepository<TClass> where TClass : class
     {
+        private readonly IMongoDatabase _database;
+        private readonly string _collection;
+
+        public UserRepository(IMongoClient client)
+        {
+            _database = client.GetDatabase("hotdesk_planner");
+            _collection = "users";
+        }
         public void Delete(TClass data)
         {
             throw new System.NotImplementedException();

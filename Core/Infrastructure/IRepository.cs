@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Infrastructure
 {
-    public interface IRepository<TClass>
+    public interface IRepository<TClass> where TClass: class
     {
         public int Insert(TClass data);
         public TClass Select(TClass data);

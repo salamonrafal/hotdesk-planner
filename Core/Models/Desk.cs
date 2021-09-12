@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Core.Models
 {
-    public class Desk
+    public class Desk: BaseModel
     {
-        public int Id { get; set; }
         public string Description { get; set; }
         public Localization Localization { get; set; }
         public List<Reservation> Reservations { get; set; }
-        public bool IsBlocked { set; get; }
+        public bool IsBlocked { set; get; } 
     }
 }
