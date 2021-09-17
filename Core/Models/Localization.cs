@@ -1,9 +1,22 @@
-﻿namespace Core.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Core.Models
 {
-    public class Localization : BaseModel
+    public class Localization
     {
-        public int Floor { get; set; }
+        [BsonRequired]
+        [BsonElement("floor")]
+        public int? Floor { get; set; }
+
+        [BsonRequired]
+        [BsonElement("outbuilding")]
         public string Outbuilding { get; set; }
+
+        [BsonRequired]
+        [BsonElement("coordination")]
         public Coordination Coordination { get; set; }
+
+
+        public readonly static Localization Empty = new();
     }
 }

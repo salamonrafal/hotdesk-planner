@@ -1,10 +1,16 @@
-﻿namespace Core.Infrastructure
+﻿using MongoDB.Driver;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Core.Infrastructure
 {
-    public interface IRepository<TClass> where TClass : class
+    public interface IRepository<TClass>
     {
-        public int Insert(TClass data);
-        public TClass Select(TClass data);
-        public void Update(TClass data);
-        public void Delete(TClass data);
+        public Task Insert(TClass model);
+        public Task<TClass> SelectOne(TClass model);
+        public Task<List<TClass>> Select(QueryDocument query);
+        public Task<List<TClass>> Select();
+        public Task<bool> Update(TClass model);
+        public Task<bool> Delete(TClass model);
     }
 }

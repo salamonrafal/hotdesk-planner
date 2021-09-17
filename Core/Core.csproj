@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="mongocsharpdriver" Version="2.13.1" />
     <PackageReference Include="MongoDB.Bson" Version="2.13.1" />
   </ItemGroup>
 
