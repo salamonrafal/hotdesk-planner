@@ -22,9 +22,9 @@ namespace Api.Commands.Reservations.Handlers
             if (command == GetReservationCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericReservationCommandMapper<GetReservationCommand, Reservation> mapper = new();
-            Reservation desk = mapper.ConvertToModel(command);
-
-            return await _service.Get(desk);
+            Reservation model = mapper.ConvertToModel(command);
+            model.Id = command.Id;
+            return await _service.Get(model);
         }
     }
 }

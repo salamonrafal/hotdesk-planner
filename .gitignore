@@ -11,7 +11,7 @@
 *.sln.docstates
 
 # Dotnet Profile
-/Api/Properties/launchsettings.json
+
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

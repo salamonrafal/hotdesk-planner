@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
         {
             _options = options.Value;
             _database = client.GetDatabase(_options.Database);
-            _collection = _database.GetCollection<TClass>("desks");
+            _collection = _database.GetCollection<TClass>("reservations");
         }
 
         public async Task<bool> Delete(TClass model)

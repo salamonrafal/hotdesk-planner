@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
+    [Produces("application/json")]
     [Route("api/v1/reservations")]
     [ApiController]
     public class ReservationsController : ControllerBase
