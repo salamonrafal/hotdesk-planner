@@ -12,8 +12,10 @@ namespace Api.ServiceConfiguration
         {
             services.AddSingleton<IDeskService, DeskService>();
             services.AddSingleton<IReservationService, ReservationService>();
+            services.AddSingleton<IUserService, UserService>();
             services.AddSingleton(typeof(IRepository<Desk>), typeof(DeskRepository<Desk>));
             services.AddSingleton(typeof(IRepository<Reservation>), typeof(ReservationRepository<Reservation>));
+            services.AddSingleton(typeof(IRepository<User>), typeof(UserRepository<User>));
         }
     }
 }

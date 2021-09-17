@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Http;
+using System.Net;
+using Core.Exceptions;
 
 namespace Api.Controllers
 {
@@ -40,7 +42,22 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Get data for specific desks in the office")]
         public async Task<Desk> GetById([FromRoute] Guid deskId)
         {
-            return await _mediator.Send(new GetDeskCommand() { Id = deskId }); ;
+            try
+            {
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return await _mediator.Send(new GetDeskCommand() { Id = deskId });
+            }
+            catch (CommandEmptyException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return null;
+            }
+            catch
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return null;
+            }
+            
         }
 
         [HttpPut]
@@ -50,8 +67,21 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Put new desk into the list of available desks in the office")]
         public async Task<Guid> Insert([FromBody] InsertDeskCommand command)
         {
-            var uuid = await _mediator.Send(command);
-            return uuid;
+            try
+            {
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return await _mediator.Send(command);
+            }
+            catch (CommandEmptyException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Guid.Empty;
+            }
+            catch
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Guid.Empty;
+            }
         }
 
         [HttpPatch]
@@ -62,8 +92,20 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Update information about specific desk")]
         public async void Update([FromRoute] Guid deskId, [FromBody] UpdateDeskCommand command)
         {
-            command.UpdateId(deskId);
-            await _mediator.Send(command);
+            try
+            {
+                Response.StatusCode = (int)HttpStatusCode.Created;
+                command.UpdateId(deskId);
+                await _mediator.Send(command);
+            }
+            catch (CommandEmptyException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+            catch
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
         }
 
         [HttpDelete]
@@ -74,7 +116,19 @@ namespace Api.Controllers
         [SwaggerOperation(Summary = "Remove desk from list of available desks in the office")]
         public async Task Delete([FromRoute] Guid deskId)
         {
-            await _mediator.Send(new DeleteDeskCommand() { Id = deskId});
+            try
+            {
+                Response.StatusCode = (int)HttpStatusCode.Accepted;
+                await _mediator.Send(new DeleteDeskCommand() { Id = deskId });
+            }
+            catch (CommandEmptyException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+            catch
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
         }
 
         [HttpPost]
@@ -89,7 +143,21 @@ namespace Api.Controllers
         )]
         public async Task<List<Desk>> Search([FromQuery] string query)
         {
-            return await _mediator.Send(new SearchDeskCommand() { Query = query }); ;
+            try
+            {
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return await _mediator.Send(new SearchDeskCommand() { Query = query });
+            }
+            catch (CommandEmptyException)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return null;
+            }
+            catch
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return null;
+            }
         }
     }
 }
