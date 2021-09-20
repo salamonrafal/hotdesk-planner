@@ -5,15 +5,15 @@ using System.Net.Http;
 
 namespace Integration.Fixtures
 {
-    abstract public class DeskIntegrationFixture : IClassFixture<DeskAppFactory>
+    public abstract class IntegrationFixture : IClassFixture<AppFactory>
     {
-        protected readonly DeskAppFactory _factory;
+        protected readonly AppFactory _factory;
         protected readonly HttpClient _client;
 
-        public DeskIntegrationFixture(DeskAppFactory fixture)
+        public IntegrationFixture(AppFactory fixture)
         {
             _factory = fixture;
-            _client = fixture.CreateClient();
+            _client = _factory.CreateClient();
         }
     }
 }

@@ -17,6 +17,6 @@ namespace Core.Models
         [BsonRepresentation(BsonType.Boolean)]
         public bool? IsBlocked { set; get; }
 
-        public readonly static Desk Empty = new();
+        public static readonly Desk Empty = new();
     }
 }

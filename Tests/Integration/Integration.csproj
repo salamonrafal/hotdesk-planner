@@ -6,11 +6,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="AppData\desks.json" />
+    <None Remove="AppData\reservations.json" />
+    <None Remove="AppData\users.json" />
+    <None Remove="Data\desks.json" />
+    <None Remove="Data\reservations.json" />
+    <None Remove="Data\users.json" />
+    <None Remove="xunit.runner.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AppData\desks.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AppData\reservations.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AppData\users.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.16.0" />
+    <PackageReference Include="FluentAssertions" Version="6.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.10" />
     <PackageReference Include="Microsoft.Json.Schema" Version="1.1.2" />
     <PackageReference Include="Microsoft.Json.Schema.Validation" Version="1.1.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Mongo2Go" Version="3.1.3" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="coverlet.collector" Version="3.0.2" />
@@ -25,10 +50,10 @@
     <ProjectReference Include="..\..\Api\Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="xunit.runner.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

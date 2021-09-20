@@ -1,10 +1,33 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 using Integration.ApplicationFactories;
+using System.Threading.Tasks;
+using System.Net;
+using FluentAssertions;
+using Integration.Fixtures;
+using System.Net.Http;
 
 namespace Integration.Tests
 {
-    abstract public class DeskIntegrationTest : Fixtures.DeskIntegrationFixture
+    public class DesksControllerTests : IntegrationFixture
     {
-        public DeskIntegrationTest(DeskAppFactory fixture) : base(fixture) { }
+        public DesksControllerTests(AppFactory fixture) : base(fixture) { }
+
+        [Fact]
+        public async Task get_retrieve_all_desks()
+        { 
+            var response = await _client.GetAsync("/api/v1/desks");
+            var content = await response.Content.ReadAsStringAsync();
+            
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task post_retrieve_all_desks()
+        {
+            var response = await _client.PostAsync("/api/v1/desks", new StringContent(""));
+            
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
