@@ -8,11 +8,29 @@ using System.Text;
 
 namespace Integration.Helpers
 {
+    public enum CompareOperator
+    {
+        Eq,
+        Neq,
+        Gt,
+        Lt,
+        Gte,
+        Lte
+    }
+
+    public class InvalidCompare : Exception
+    {
+        public InvalidCompare(string message) : base(message)
+        {
+            
+        }
+    }
+    
     public class VirtualDbJsonLoader<TClassOutput> : IVirtualDbJsonLoader<TClassOutput>
     {
         private readonly string _dbJsonPath;
         private List<TClassOutput> _data;
-
+        
         public VirtualDbJsonLoader(string dbJsonPath)
         {
             _dbJsonPath = dbJsonPath;
@@ -25,22 +43,12 @@ namespace Integration.Helpers
             return _data;
         }
 
-        public List<TClassOutput> FindItem(string field,
-            string value)
+        public List<TClassOutput> FindItem(
+            string field,
+            string value
+        )
         {
-            var element = _data.Where(item =>
-                {
-                    var property = item.GetType()
-                        .GetProperty(field)
-                        ?.GetValue(item);
-                    var type = item.GetType()
-                        .GetProperty(field)
-                        ?.PropertyType;
-
-                    return property?.ToString() == value &&
-                           property?.ToString() != type?.ToString();
-                })
-                .Select(items => items);
+            var element = SelectItems(field, value);
 
             return element.ToList();
         }
@@ -62,6 +70,70 @@ namespace Integration.Helpers
             _data.Add(data);
 
             return true;
+        }
+
+        private IEnumerable<TClassOutput> SelectItems(string field, string value)
+        {
+            return _data
+                .Where(item => FindElementInList(item, field, value))
+                .Select(items => items);
+        }
+        
+        private bool FindElementInList(
+            TClassOutput item, 
+            string field,
+            string value,
+            CompareOperator @operator = CompareOperator.Eq
+        )
+        {
+            var property = item.GetType()
+                .GetProperty(field)
+                ?.GetValue(item);
+            var type = item.GetType()
+                .GetProperty(field)
+                ?.PropertyType;
+
+            return MakeLogicStringOperation<string>(property?.ToString(), value, @operator) &&
+                   property?.ToString() != type?.ToString();
+        }
+
+        private bool MakeLogicStringOperation<TValueType>(TValueType property1, TValueType property2, CompareOperator @operator)
+        {
+            switch (@operator)
+            {
+                case CompareOperator.Eq:
+                    return  EqualityComparer<TValueType>.Default.Equals(property1, property2);
+                
+                case CompareOperator.Gt:
+                    if (typeof(int) != typeof(TValueType))
+                        throw new InvalidCompare("Gt[e], Lt[e] available for int type");
+                    
+                    return (int)(object)property1 > (int)(object) property2;
+   
+                case CompareOperator.Lt:
+                    if (typeof(int) != typeof(TValueType))
+                        throw new InvalidCompare("Gt[e], Lt[e] available for int type");
+                    
+                    return (int)(object)property1 < (int)(object) property2;
+                    
+                case CompareOperator.Gte:
+                    if (typeof(int) != typeof(TValueType))
+                        throw new InvalidCompare("Gt[e], Lt[e] available for int type");
+                    
+                    return (int)(object)property1 >= (int)(object) property2;
+                
+                case CompareOperator.Lte:
+                    if (typeof(int) != typeof(TValueType))
+                        throw new InvalidCompare("Gt[e], Lt[e] available for int type");
+                    
+                    return (int)(object)property1 <= (int)(object) property2;
+                
+                case CompareOperator.Neq:
+                    return  !EqualityComparer<TValueType>.Default.Equals(property1, property2);
+                
+                default:
+                    throw new InvalidCompare("Unhandled compare operation");
+            }
         }
 
         private async void Load()
