@@ -13,25 +13,25 @@ namespace Integration.Fixtures
 {
     public class BaseFixture
     {
-        private const string DatabaseName = "hotdesk_planner";
-        private const string DesksCollectionName = "desks";
-        private const string ReservationsCollectionName = "reservations";
-        private const string UsersCollectionName = "users";
+        protected const string DatabaseName = "hotdesk_planner";
+        protected const string DesksCollectionName = "desks";
+        protected const string ReservationsCollectionName = "reservations";
+        protected const string UsersCollectionName = "users";
         
         protected IHost? Host;
-        private MongoDbRunner? _runner;
+        protected MongoDbRunner? Runner;
         
         [SetUp]
         public virtual async Task SetUp()
         {
-            _runner = MongoDbRunner.StartForDebugging();
-            _runner.Import(DatabaseName, DesksCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{DesksCollectionName}.json"), true);
-            _runner.Import(DatabaseName, ReservationsCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{ReservationsCollectionName}.json"), true);
-            _runner.Import(DatabaseName, UsersCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{UsersCollectionName}.json"), true);
+            Runner = MongoDbRunner.StartForDebugging();
+            Runner.Import(DatabaseName, DesksCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{DesksCollectionName}.json"), true);
+            Runner.Import(DatabaseName, ReservationsCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{ReservationsCollectionName}.json"), true);
+            Runner.Import(DatabaseName, UsersCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{UsersCollectionName}.json"), true);
             
             Host = ApplicationFactory.Create (testServices: services =>
             {
-                services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(_runner.ConnectionString));
+                services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(Runner.ConnectionString));
             });
             
             await Host.StartAsync ();
@@ -40,7 +40,7 @@ namespace Integration.Fixtures
         [TearDown]
         public void Stop()
         {
-            _runner?.Dispose(); 
+            Runner?.Dispose(); 
             Host?.Dispose ();
         }
     }
