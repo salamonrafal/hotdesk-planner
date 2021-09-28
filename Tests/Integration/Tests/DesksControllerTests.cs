@@ -1,33 +1,38 @@
 ﻿using System;
+using System.IO;
 using Xunit;
 using Integration.ApplicationFactories;
 using System.Threading.Tasks;
 using System.Net;
 using FluentAssertions;
-using Integration.Fixtures;
 using System.Net.Http;
+using Api.Controllers;
+using Integration.Fixtures;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Mongo2Go;
+using MongoDB.Driver;
+using NUnit.Framework;
 
 namespace Integration.Tests
 {
-    public class DesksControllerTests : IntegrationFixture
+    public class DesksControllerTests: BaseFixture
     {
-        public DesksControllerTests(AppFactory fixture) : base(fixture) { }
-
-        [Fact]
-        public async Task get_retrieve_all_desks()
-        { 
-            var response = await _client.GetAsync("/api/v1/desks");
-            var content = await response.Content.ReadAsStringAsync();
-            
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        private DesksController? _controller;
+        
+        [SetUp]
+        public override async Task SetUp()
+        {
+            await base.SetUp ();
+            _controller = new DesksController (_host.Services.GetService<IMediator>());
         }
 
-        [Fact]
-        public async Task post_retrieve_all_desks()
+        [Test]
+        public async Task get_retrieve_all_desks()
         {
-            var response = await _client.PostAsync("/api/v1/desks", new StringContent(""));
-            
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+ 
+            var content = await _controller?.Get ()!;
         }
     }
 }

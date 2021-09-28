@@ -12,11 +12,13 @@ namespace Api.ServiceConfiguration
         {
             services.Configure<DatabaseOptions>(options => configuration.GetSection("Database").Bind(options));
             
-            var template = configuration.GetSection("Database:ConnectionString").Value;
+            var dbConfig = configuration.GetSection ("Database");
+            
+            var template = dbConfig.GetValue<string>("ConnectionString");
             var user = GetDatabaseUser(configuration);
             var password = GetDatabasePassword(configuration);
-            var server = configuration.GetSection("Database:Server").Value;
-            var database = configuration.GetSection("Database:Database").Value;
+            var server = dbConfig.GetValue<string>("Server");
+            var database = dbConfig.GetValue<string>("Database");
             var connectionString = string.Format(template, user, password, server, database);
             var databaseSettings = MongoClientSettings.FromConnectionString(connectionString);
 
@@ -25,9 +27,12 @@ namespace Api.ServiceConfiguration
 
         private static string GetDatabaseUser(IConfiguration configuration)
         {
-            var userConfiguration = configuration["Database:User"] != null
-                ? configuration["Database:User"]
+            var dbConfig = configuration.GetSection ("Database");
+
+            var userConfiguration = dbConfig.GetValue<string>("User") != ""
+                ? dbConfig.GetValue<string>("User")
                 : configuration["MongoDB:DB_USER"] ?? "";
+
 
             return Environment.GetEnvironmentVariable("DB_USER") != ""
                 ? Environment.GetEnvironmentVariable("DB_USER")
@@ -36,8 +41,10 @@ namespace Api.ServiceConfiguration
         
         private static string GetDatabasePassword(IConfiguration configuration)
         {
-            var passwordConfiguration = configuration["Database:Password"] != null
-                ? configuration["Database:Password"]
+            var dbConfig = configuration.GetSection ("Database");
+            
+            var passwordConfiguration = dbConfig.GetValue<string>("Password") != ""
+                ? dbConfig.GetValue<string>("Password")
                 : configuration["MongoDB:DB_PASSWORD"] ?? "";
 
             return Environment.GetEnvironmentVariable("DB_PASSWORD") != ""
