@@ -1,17 +1,3 @@
 [
-  {
-    "_id": "6c5999dc-825d-40cb-af58-4110221ff0b7",
-    "id": "6c5999dc-825d-40cb-af58-4110221ff0b6",
-    "description": "Testowy desk 1",
-    "localization": {
-      "floor": 0,
-      "outbuilding": "Y",
-      "coordination":
-      {
-        "x": 1.22,
-        "y": 2.33
-      },
-      "is_blocked": false
-    }
-  }
+  
 ]

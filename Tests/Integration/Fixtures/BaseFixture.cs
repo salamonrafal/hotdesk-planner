@@ -13,31 +13,35 @@ namespace Integration.Fixtures
 {
     public class BaseFixture
     {
-        protected IHost _host;
-        protected MongoDbRunner _runner;
-
+        private const string DatabaseName = "hotdesk_planner";
+        private const string DesksCollectionName = "desks";
+        private const string ReservationsCollectionName = "reservations";
+        private const string UsersCollectionName = "users";
+        
+        protected IHost? Host;
+        private MongoDbRunner? _runner;
         
         [SetUp]
         public virtual async Task SetUp()
         {
             _runner = MongoDbRunner.StartForDebugging();
-            _runner.Import("hotdesk_planner", "desks", Path.Combine (Directory.GetCurrentDirectory (), "AppData/desks.json"), true);
-            _runner.Import("hotdesk_planner", "desks", Path.Combine (Directory.GetCurrentDirectory (), "AppData/reservations.json"), true);
-            _runner.Import("hotdesk_planner", "desks", Path.Combine (Directory.GetCurrentDirectory (), "AppData/users.json"), true);
+            _runner.Import(DatabaseName, DesksCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{DesksCollectionName}.json"), true);
+            _runner.Import(DatabaseName, ReservationsCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{ReservationsCollectionName}.json"), true);
+            _runner.Import(DatabaseName, UsersCollectionName, Path.Combine (Directory.GetCurrentDirectory (), $"AppData/{UsersCollectionName}.json"), true);
             
-            _host = ApplicationFactory.Create (testServices: services =>
+            Host = ApplicationFactory.Create (testServices: services =>
             {
                 services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(_runner.ConnectionString));
             });
             
-            await _host.StartAsync ();
+            await Host.StartAsync ();
         }
 
         [TearDown]
         public void Stop()
         {
-            _runner.Dispose(); 
-            _host.Dispose ();
+            _runner?.Dispose(); 
+            Host?.Dispose ();
         }
     }
 }

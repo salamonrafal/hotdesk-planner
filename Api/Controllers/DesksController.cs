@@ -29,9 +29,22 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get all data about available desks in the office")]
-        public async Task<List<Desk>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _mediator.Send(new GetAllDeskCommand() { }); ;
+            try
+            {
+                var data = await _mediator.Send (new GetAllDeskCommand () { });
+                
+                return Ok(data);
+            }
+            catch (CommandEmptyException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return Problem (statusCode: 500);
+            }
         }
 
         [HttpGet]
@@ -40,22 +53,21 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get data for specific desks in the office")]
-        public async Task<Desk> GetById([FromRoute] Guid deskId)
+        public async Task<IActionResult> GetById([FromRoute] Guid deskId)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return await _mediator.Send(new GetDeskCommand() { Id = deskId });
+                var data =  await _mediator.Send(new GetDeskCommand() { Id = deskId });
+                
+                return Ok(data);
             }
             catch (CommandEmptyException)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return null;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return null;
+                return Problem (statusCode: 500);
             }
             
         }
@@ -65,22 +77,21 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Put new desk into the list of available desks in the office")]
-        public async Task<Guid> Insert([FromBody] InsertDeskCommand command)
+        public async Task<IActionResult> Insert([FromBody] InsertDeskCommand command)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return await _mediator.Send(command);
+                var data = await _mediator.Send(command);
+                
+                return Ok(data);
             }
             catch (CommandEmptyException)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Guid.Empty;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return Guid.Empty;
+                return Problem (statusCode: 500);
             }
         }
 
@@ -90,21 +101,22 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Update information about specific desk")]
-        public async void Update([FromRoute] Guid deskId, [FromBody] UpdateDeskCommand command)
+        public async Task<IActionResult> Update([FromRoute] Guid deskId, [FromBody] UpdateDeskCommand command)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.Created;
-                command.UpdateId(deskId);
-                await _mediator.Send(command);
+                command.UpdateId (deskId);
+                await _mediator.Send (command);
+
+                return NoContent ();
             }
-            catch (CommandEmptyException)
+            catch ( CommandEmptyException )
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return BadRequest ();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Problem (statusCode: 500);
             }
         }
 
@@ -114,20 +126,23 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Remove desk from list of available desks in the office")]
-        public async Task Delete([FromRoute] Guid deskId)
+        public async Task<IActionResult> Delete([FromRoute] Guid deskId)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.Accepted;
-                await _mediator.Send(new DeleteDeskCommand() { Id = deskId });
+                this.Response.StatusCode = 200;
+                Response.StatusCode = (int) HttpStatusCode.Accepted;
+                await _mediator.Send (new DeleteDeskCommand () {Id = deskId});
+
+                return Accepted ();
             }
-            catch (CommandEmptyException)
+            catch ( CommandEmptyException )
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return BadRequest ();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Problem (statusCode: 500);
             }
         }
 
@@ -141,22 +156,21 @@ namespace Api.Controllers
             Description = "If you would like to search desks you should use below documentation about query document: " +
                 "<a href=\"https://docs.mongodb.com/manual/tutorial/query-documents/\">https://docs.mongodb.com/manual/tutorial/query-documents/</a>"
         )]
-        public async Task<List<Desk>> Search([FromQuery] string query)
+        public async Task<IActionResult> Search([FromQuery] string query)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return await _mediator.Send(new SearchDeskCommand() { Query = query });
+                var data = await _mediator.Send(new SearchDeskCommand() { Query = query });
+                
+                return Ok(data);
             }
             catch (CommandEmptyException)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return null;
+                return BadRequest ();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return null;
+                return Problem (statusCode: 500);
             }
         }
     }
