@@ -7,27 +7,27 @@ namespace Integration.Helpers
 {
     public static class ExtendAssertion
     {
-        public static void ShouldBeOn(this List<Reservation>? actualValue, List<string> testValues)
+        public static void ShouldBeOn(this List<Reservation>? actualValues, List<string> testValues)
         {
-            actualValue.Should ().HaveCount (testValues.Count);
+            actualValues.Should ().HaveCount (testValues.Count);
             
-            foreach (var testValue in actualValue!)
-                Assert.IsTrue (testValues.Exists (x => x.Contains (testValue.Id.ToString ())));
+            foreach (var actualValue in actualValues!)
+                Assert.IsTrue (testValues.Exists (x => x.Contains (actualValue.Id.ToString ())));
         } 
         
-        public static void ShouldBeOn(this List<Desk>? actualValue, List<string> testValues)
+        public static void ShouldBeOn(this List<Desk>? actualValues, List<string> testValues)
         {
-            actualValue.Should ().HaveCount (testValues.Count);
+            actualValues.Should ().HaveCount (testValues.Count);
             
-            foreach (var testValue in actualValue!)
-                Assert.IsTrue (testValues.Exists (x => x.Contains (testValue.Id.ToString ())));
+            foreach (var actualValue in actualValues!)
+                Assert.IsTrue (testValues.Exists (x => x.Contains (actualValue.Id.ToString ())));
         } 
-        public static void ShouldBeOn(this List<User>? actualValue, List<string> testValues)
+        public static void ShouldBeOn(this List<User>? actualValues, List<string> testValues)
         {
-            actualValue.Should ().HaveCount (testValues.Count);
+            actualValues.Should ().HaveCount (testValues.Count);
             
-            foreach (var testValue in actualValue!)
-                Assert.IsTrue (testValues.Exists (x => x.Contains (testValue.Id.ToString ())));
+            foreach (var actualValue in actualValues!)
+                Assert.IsTrue (testValues.Exists (x => x.Contains (actualValue.Id.ToString ())));
         } 
     }
 }
