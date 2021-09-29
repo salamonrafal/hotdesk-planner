@@ -25,8 +25,7 @@ namespace Infrastructure.Repositories
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
 
-            if (model != null)
-                await _collection.DeleteOneAsync(filter);
+            await _collection.DeleteOneAsync(filter);
 
             return true;
         }
@@ -52,23 +51,16 @@ namespace Infrastructure.Repositories
 
         public async Task<List<TClass>> Select(QueryDocument query)
         {
-            return await _collection.Find(query).ToListAsync<TClass>();
+            return await _collection.Find(query).Sort ("{id: -1}").ToListAsync<TClass>();
         }
 
         public async Task<bool> Update(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
+            
+            await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
 
-            if (model != null)
-            {
-                var p = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
         private UpdateDefinition<TClass> CreateUpdateDefinition(TClass model)

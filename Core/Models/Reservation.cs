@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
+using MongoDB.Bson;
 
 namespace Core.Models
 {
@@ -18,6 +19,7 @@ namespace Core.Models
 
         [BsonRequired]
         [BsonElement("assigned_to")]
+        [BsonRepresentation(BsonType.String)]
         public Guid? AssignedTo { get; set; }
 
         [BsonElement("periodic_detail")]
@@ -25,8 +27,9 @@ namespace Core.Models
 
         [BsonRequired]
         [BsonElement("desk_id")]
+        [BsonRepresentation(BsonType.String)]
         public Guid? DeskId { get; set; }
 
-        public readonly static Reservation Empty = new();
+        public static readonly Reservation Empty = new();
     }
 }

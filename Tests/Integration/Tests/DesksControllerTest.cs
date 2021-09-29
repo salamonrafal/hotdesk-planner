@@ -17,12 +17,12 @@ namespace Integration.Tests
     [TestFixture]
     public class DesksControllerTest: BaseFixture
     {
-        private const string DeskIdGet = "eb9ce8c0-eded-492c-9745-07203eeeaf74";
-        private const string DeskIdDelete = "5a3a2fec-db76-48dc-b731-60ceaa211151";
-        private const string DeskIdUpdate = "cd17861a-749a-47fd-8a3e-7054dd70416e";
+        private const string TestIdGet = "eb9ce8c0-eded-492c-9745-07203eeeaf74";
+        private const string TestIdDelete = "5a3a2fec-db76-48dc-b731-60ceaa211151";
+        private const string TestIdUpdate = "cd17861a-749a-47fd-8a3e-7054dd70416e";
         private const string QuerySearch = "{\"localization.floor\": 1, \"is_blocked\": true}";
         private const int MaxElementsGetAll = 6;
-        private readonly string[] _deskIdSearch =
+        private readonly List<string> _testIdSearch = new List<string> ()
         {
             "4e89e05c-92dc-42c2-bbc5-683c5a0d71ef", 
             "c33bd5d4-7af7-45fb-84e2-15bbbf7a1789"
@@ -54,7 +54,7 @@ namespace Integration.Tests
         [Test]
         public async Task ShouldInsertDeskToStore()
         {
-            InsertDeskCommand command = MockCommands.DeskModel.CreateInsertDeskCommand ();
+            InsertDeskCommand command = MockCommands.DeskModel.CreateInsertCommand ();
 
             var actionResult = await _controller?.Insert (command)!;
             
@@ -70,10 +70,7 @@ namespace Integration.Tests
         [Test]
         public async Task ShouldReturnDeskById()
         {
-            GetDeskCommand command = MockCommands.DeskModel.CreateGetDeskCommand
-                (id: Guid.Parse (DeskIdGet));
-
-            var actionResult = await _controller?.GetById (command.Id)!;
+            var actionResult = await _controller?.GetById (Guid.Parse (TestIdGet))!;
             
             actionResult.Should ().BeOfType<OkObjectResult> ();
             
@@ -90,7 +87,7 @@ namespace Integration.Tests
         [Test]
         public async Task ShouldDeleteDeskFromStore()
         {
-            var actionResult = await _controller?.Delete (Guid.Parse (DeskIdDelete))!;
+            var actionResult = await _controller?.Delete (Guid.Parse (TestIdDelete))!;
             
             actionResult.Should ().BeOfType<AcceptedResult> ();
         }
@@ -98,8 +95,8 @@ namespace Integration.Tests
         [Test]
         public async Task ShouldUpdateDesk()
         {
-            var command = MockCommands.DeskModel.CreateUpdateDeskCommand (description: "Description updated");
-            var actionResult = await _controller?.Update (Guid.Parse (DeskIdUpdate), command)!;
+            var command = MockCommands.DeskModel.CreateUpdateCommand (description: "Description updated");
+            var actionResult = await _controller?.Update (Guid.Parse (TestIdUpdate), command)!;
             
             actionResult.Should ().BeOfType<NoContentResult> ();
         }
@@ -114,9 +111,8 @@ namespace Integration.Tests
             if ( actionResult is OkObjectResult okResult )
             {
                 var response = okResult.Value as List<Desk>;
-                response.Should ().HaveCount (2);
-                response?[0].Id.Should ().Be (Guid.Parse (_deskIdSearch[1]));
-                response?[1].Id.Should ().Be (Guid.Parse (_deskIdSearch[0]));
+                
+                response.ShouldBeOn (_testIdSearch);
             }
         }
     }
