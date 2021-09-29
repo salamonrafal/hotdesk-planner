@@ -1,1 +1,2 @@
-﻿
+﻿{"_id":{"$binary":{"base64":"4n+ClM9OLEOKEK2yAATKKQ==","subType":"03"}},"id":"eb9ce8c0-eded-492c-9745-07203eeeaf74","description":"Description","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}
+{"_id":{"$binary":{"base64":"nodUTl919Umr+a2yAATKRg==","subType":"03"}},"id":"3f372f15-a7cf-4d85-acb5-cd7098edf0fd","description":"Desk 2","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}

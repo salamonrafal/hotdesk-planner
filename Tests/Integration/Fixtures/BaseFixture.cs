@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Api.Controllers;
 using Integration.ApplicationFactories;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Mongo2Go;
 using MongoDB.Driver;
 using NUnit.Framework;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Integration.Fixtures
 {

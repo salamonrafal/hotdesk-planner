@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <Content Include="AppData\desks.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AppData\reservations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

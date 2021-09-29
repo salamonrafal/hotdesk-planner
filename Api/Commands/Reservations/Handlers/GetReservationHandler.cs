@@ -24,6 +24,7 @@ namespace Api.Commands.Reservations.Handlers
             GenericReservationCommandMapper<GetReservationCommand, Reservation> mapper = new();
             Reservation model = mapper.ConvertToModel(command);
             model.Id = command.Id;
+            
             return await _service.Get(model);
         }
     }

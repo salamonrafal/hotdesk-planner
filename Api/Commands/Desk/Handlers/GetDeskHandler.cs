@@ -22,9 +22,10 @@ namespace Api.Commands.Desk.Handlers
             if (command == GetDeskCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericDeskCommandMapper<GetDeskCommand, DeskModel> mapper = new();
-            DeskModel desk = mapper.ConvertToModel(command);
-
-            return await _service.Get(desk);
+            DeskModel model = mapper.ConvertToModel(command);
+            model.Id = command.Id;
+            
+            return await _service.Get(model);
         }
     }
 }
