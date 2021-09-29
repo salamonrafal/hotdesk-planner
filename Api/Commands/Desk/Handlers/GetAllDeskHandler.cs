@@ -9,7 +9,7 @@ namespace Api.Commands.Desk.Handlers
 {
     public class GetAllDeskHandler : IRequestHandler<GetAllDeskCommand, List<DeskModel>>
     {
-        public readonly IDeskService _service;
+        private readonly IDeskService _service;
 
         public GetAllDeskHandler(IDeskService service)
         {

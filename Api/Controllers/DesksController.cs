@@ -130,8 +130,6 @@ namespace Api.Controllers
         {
             try
             {
-                this.Response.StatusCode = 200;
-                Response.StatusCode = (int) HttpStatusCode.Accepted;
                 await _mediator.Send (new DeleteDeskCommand () {Id = deskId});
 
                 return Accepted ();

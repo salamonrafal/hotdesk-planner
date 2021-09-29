@@ -34,7 +34,6 @@ namespace Integration.Helpers
 
             public static UpdateDeskCommand CreateUpdateDeskCommand
             (
-                Guid id,
                 string description = "Description Update",
                 bool isBlocked = false,
                 int x = 1,
@@ -44,7 +43,6 @@ namespace Integration.Helpers
             ) => new UpdateDeskCommand ()
             {
                 Description = description,
-                Id = id,
                 IsBlocked = isBlocked,
                 Localization = new Localization ()
                 {

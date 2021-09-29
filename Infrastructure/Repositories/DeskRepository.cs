@@ -49,7 +49,7 @@ namespace Infrastructure.Repositories
 
         public async Task<List<TClass>> Select(QueryDocument query)
         {
-            return await _collection.Find(query).ToListAsync();
+            return await _collection.Find(query).Sort ("{id: -1}").ToListAsync();
         }
 
         public async Task<bool> Update(TClass model)

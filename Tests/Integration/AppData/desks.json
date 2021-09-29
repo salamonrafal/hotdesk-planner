@@ -1,2 +1,9 @@
 ﻿{"_id":{"$binary":{"base64":"4n+ClM9OLEOKEK2yAATKKQ==","subType":"03"}},"id":"eb9ce8c0-eded-492c-9745-07203eeeaf74","description":"Description","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}
 {"_id":{"$binary":{"base64":"nodUTl919Umr+a2yAATKRg==","subType":"03"}},"id":"3f372f15-a7cf-4d85-acb5-cd7098edf0fd","description":"Desk 2","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}
+{"_id":{"$binary":{"base64":"nodUTl919Umr+a2yAATKRg==","subType":"03"}},"id":"5a3a2fec-db76-48dc-b731-60ceaa211151","description":"Desk to delete","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}
+{"_id":{"$binary":{"base64":"nodYmFzZTY1IGRlY29kZXI==","subType":"03"}},"id":"cd17861a-749a-47fd-8a3e-7054dd70416e","description":"Desk to update","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}
+
+{"_id":{"$binary":{"base64":"nodNGU4OWUwNWMtOTJkYy0==","subType":"03"}},"id":"4e89e05c-92dc-42c2-bbc5-683c5a0d71ef","description":"Desk to find 1","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":true}
+{"_id":{"$binary":{"base64":"nodNWZiLTg0ZTItMTViYmJ==","subType":"03"}},"id":"c33bd5d4-7af7-45fb-84e2-15bbbf7a1789","description":"Desk to find 2","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":true}
+{"_id":{"$binary":{"base64":"nodMWM2ZWRlM2QtODM3Zi0==","subType":"03"}},"id":"1c6ede3d-837f-4646-8da7-a428111dedce","description":"Desk to find 3","localization":{"floor":2,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}
+{"_id":{"$binary":{"base64":"nodYmFzZTY1IGRlY29kZXI==","subType":"03"}},"id":"47eea19e-f30a-4fb1-a806-235f1b8508d6","description":"Desk to find 4","localization":{"floor":1,"outbuilding":"A","coordination":{"x":0.0,"y":0.0}},"is_blocked":false}

@@ -10,7 +10,7 @@ namespace Api.Commands.Desk.Handlers
 {
     public class DeleteDeskHandler : IRequestHandler<DeleteDeskCommand, bool>
     {
-        public readonly IDeskService _service;
+        private readonly IDeskService _service;
 
         public DeleteDeskHandler(IDeskService service)
         {
@@ -22,7 +22,7 @@ namespace Api.Commands.Desk.Handlers
             if (command == DeleteDeskCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericDeskCommandMapper<DeleteDeskCommand, DeskModel> mapper = new();
-            DeskModel desk = mapper.ConvertToModel(command);
+            var desk = mapper.ConvertToModel(command);
             desk.Id = command.Id;
             return await _service.Remove(desk);
         }

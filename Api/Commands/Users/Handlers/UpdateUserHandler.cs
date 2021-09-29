@@ -10,7 +10,7 @@ namespace Api.Commands.Users.Handlers
 {
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, bool>
     {
-        public readonly IUserService _service;
+        private readonly IUserService _service;
 
         public UpdateUserHandler(IUserService service)
         {
@@ -22,7 +22,7 @@ namespace Api.Commands.Users.Handlers
             if (command == UpdateUserCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericUserCommandMapper<UpdateUserCommand, User> mapper = new();
-            User desk = mapper.ConvertToModel(command);
+            var desk = mapper.ConvertToModel(command);
             desk.Id = command.Id;
             return await _service.Update(desk);
         }

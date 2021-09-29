@@ -9,7 +9,7 @@ namespace Api.Commands.Reservations.Handlers
 {
     public class GetAllReservationHandler : IRequestHandler<GetAllReservationCommand, List<Reservation>>
     {
-        public readonly IReservationService _service;
+        private readonly IReservationService _service;
 
         public GetAllReservationHandler(IReservationService service)
         {

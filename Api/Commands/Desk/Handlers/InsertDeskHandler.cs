@@ -11,7 +11,7 @@ namespace Api.Commands.Desk.Handlers
 {
     public class InsertDeskHandler : IRequestHandler<InsertDeskCommand, Guid>
     {
-        public readonly IDeskService _service;
+        private readonly IDeskService _service;
 
         public InsertDeskHandler(IDeskService service)
         {
@@ -23,7 +23,7 @@ namespace Api.Commands.Desk.Handlers
             if (command == InsertDeskCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericDeskCommandMapper<InsertDeskCommand, DeskModel> mapper = new();
-            DeskModel desk = mapper.ConvertToModel(command);
+            var desk = mapper.ConvertToModel(command);
             return await _service.Add(desk);
         }
     }

@@ -11,7 +11,7 @@ namespace Api.Commands.Users.Handlers
 {
     public class InsertUserHandler : IRequestHandler<InsertUserCommand, Guid>
     {
-        public readonly IUserService _service;
+        private readonly IUserService _service;
 
         public InsertUserHandler(IUserService service)
         {
@@ -23,7 +23,7 @@ namespace Api.Commands.Users.Handlers
             if (command == InsertUserCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericUserCommandMapper<InsertUserCommand, User> mapper = new();
-            User desk = mapper.ConvertToModel(command);
+            var desk = mapper.ConvertToModel(command);
             return await _service.Add(desk);
         }
     }

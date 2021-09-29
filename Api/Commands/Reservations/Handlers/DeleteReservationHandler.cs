@@ -10,7 +10,7 @@ namespace Api.Commands.Reservations.Handlers
 {
     public class DeleteReservationHandler : IRequestHandler<DeleteReservationCommand, bool>
     {
-        public readonly IReservationService _service;
+        private readonly IReservationService _service;
 
         public DeleteReservationHandler(IReservationService service)
         {

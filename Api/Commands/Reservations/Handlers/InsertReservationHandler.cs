@@ -11,7 +11,7 @@ namespace Api.Commands.Reservations.Handlers
 {
     public class InsertReservationHandler : IRequestHandler<InsertReservationCommand, Guid>
     {
-        public readonly IReservationService _service;
+        private readonly IReservationService _service;
 
         public InsertReservationHandler(IReservationService service)
         {
@@ -23,7 +23,7 @@ namespace Api.Commands.Reservations.Handlers
             if (command == InsertReservationCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericReservationCommandMapper<InsertReservationCommand, Reservation> mapper = new();
-            Reservation desk = mapper.ConvertToModel(command);
+            var desk = mapper.ConvertToModel(command);
             return await _service.Add(desk);
         }
     }
