@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -24,5 +23,11 @@ jobs:
       env:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Test
       run: dotnet test --no-build --verbosity normal
+  
