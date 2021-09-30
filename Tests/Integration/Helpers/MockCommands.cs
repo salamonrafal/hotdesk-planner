@@ -19,7 +19,7 @@ namespace Integration.Helpers
                 int y = 0,
                 int floor = 1,
                 string outbuilding = "A"
-            ) => new InsertDeskCommand ()
+            ) => new ()
             {
                 Description = description,
                 IsBlocked = isBlocked,
@@ -43,7 +43,7 @@ namespace Integration.Helpers
                 int y = 1,
                 int floor = 2,
                 string outbuilding = "B"
-            ) => new UpdateDeskCommand ()
+            ) => new ()
             {
                 Description = description,
                 IsBlocked = isBlocked,
@@ -69,7 +69,7 @@ namespace Integration.Helpers
                 DateTime startDate = new DateTime (),
                 bool isPeriodical = false,
                 PeriodicDetail? periodicDetail = null
-            ) => new InsertReservationCommand ()
+            ) => new ()
             {
                 AssignedTo = userId,
                 EndDate = endDate,
@@ -84,7 +84,7 @@ namespace Integration.Helpers
                 DateTime startDate = new DateTime (),
                 bool isPeriodical = false,
                 PeriodicDetail? periodicDetail = null
-            ) => new UpdateReservationCommand ()
+            ) => new ()
             {
                 StartDate = startDate,
                 EndDate = endDate,
@@ -102,7 +102,7 @@ namespace Integration.Helpers
                 List<UserRole>? role = null,
                 string surname = "Kowalski",
                 string urlAvatar = "http://wwww.google.pl/"
-            ) => new InsertUserCommand ()
+            ) => new ()
             {
                 Email = email,
                 Name = name,
@@ -118,7 +118,7 @@ namespace Integration.Helpers
                 string password = "123456-update",
                 string surname = "Kowalski-update",
                 string urlAvatar = "http://wwww.google.pl/-update"
-            ) => new UpdateUserCommand ()
+            ) => new ()
             {
                 Email = email,
                 Name = name,

@@ -13,7 +13,7 @@ namespace Api
     {
         public IConfiguration Configuration { get; }
         
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)  
+        public Startup(IConfiguration configuration)  
         {  
             Configuration = configuration;  
         } 

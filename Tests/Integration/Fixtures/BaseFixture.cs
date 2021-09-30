@@ -23,8 +23,7 @@ namespace Integration.Fixtures
         protected IHost? Host;
         protected MongoDbRunner? Runner;
         
-        [SetUp]
-        public virtual async Task SetUp()
+        public virtual async Task SetUpForSuccess()
         {
             Runner = MongoDbRunner.StartForDebugging();
 

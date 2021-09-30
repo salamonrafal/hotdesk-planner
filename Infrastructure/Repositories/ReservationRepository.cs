@@ -63,7 +63,7 @@ namespace Infrastructure.Repositories
             return true;
         }
 
-        private UpdateDefinition<TClass> CreateUpdateDefinition(TClass model)
+        private static UpdateDefinition<TClass> CreateUpdateDefinition(TClass model)
         {
             var update = new List<UpdateDefinition<TClass>>();
 
