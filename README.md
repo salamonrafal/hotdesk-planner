@@ -1,7 +1,15 @@
 
-# hotdesk-planner
-[![.NET](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml/badge.svg)](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml)
 
+# hotdesk-planner
+[![.NET](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml/badge.svg)](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml) ![GitHub last commit](https://img.shields.io/github/last-commit/salamonrafal/hotdesk-planner?label=Last%20commit) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/salamonrafal/hotdesk-planner)
+
+* [Unit & Integration tests](#)
+	* [Integration tests](#)
+		* [Structure of directories](#)
+		* [Mocking MongoDB ](#)
+		* [Code Coverage ](#)
+	* [Unit tests ](#)
+		* [Structure of directories](#)
 
 ## Unit & Integration tests
 
@@ -12,11 +20,10 @@ I use to test coverage NUnit test framework and FluentAssertion for both type of
 #### Structure of directories:
 
 ```textmate
-
 - Test
     - Integration
         - AppData 
-            : Directory contains test data for feeding Test server MongoDB
+            : Directory contains test data for feeding test server MongoDB
             
         - ApplicationFactories 
             : Directory contains object for create  test server application
@@ -51,3 +58,27 @@ C:repos\hotdesk-planner> .\scripts\win\code-coverage.ps1
 
 **Reports**
 Script generate two versions of code coverage: HTML and XML. Both versions placed inside `./.coverage/reports/` directory.
+
+### Unit tests
+
+#### Structure of directories:
+
+```textmate
+- Test
+	- Unit	
+        - Api
+            : Directory contains test cases for project Api
+            
+        - Core
+            :  Directory contains test cases for project Core
+            
+        - Infrastructure
+            :  Directory contains test cases for project Infrastructure
+            
+        - Helpers
+            : Directory contains tools and objects use in test
+            
+        - AppData
+            : Directory contains test data for feeding tests
+            
+```
