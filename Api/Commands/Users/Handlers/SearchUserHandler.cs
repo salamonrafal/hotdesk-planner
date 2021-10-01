@@ -10,7 +10,7 @@ namespace Api.Commands.Users.Handlers
 {
     public class SearchUserHandler : IRequestHandler<SearchUserCommand, List<User>>
     {
-        public readonly IUserService _service;
+        private readonly IUserService _service;
 
         public SearchUserHandler(IUserService service)
         {

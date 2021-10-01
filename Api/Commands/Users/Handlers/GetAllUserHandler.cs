@@ -9,7 +9,7 @@ namespace Api.Commands.Users.Handlers
 {
     public class GetAllUserHandler : IRequestHandler<GetAllUserCommand, List<User>>
     {
-        public readonly IUserService _service;
+        private readonly IUserService _service;
 
         public GetAllUserHandler(IUserService service)
         {

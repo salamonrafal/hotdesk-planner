@@ -10,7 +10,7 @@ namespace Api.Commands.Users.Handlers
 {
     public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, bool>
     {
-        public readonly IUserService _service;
+        private readonly IUserService _service;
 
         public DeleteUserHandler(IUserService service)
         {
@@ -22,7 +22,7 @@ namespace Api.Commands.Users.Handlers
             if (command == DeleteUserCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericUserCommandMapper<DeleteUserCommand, User> mapper = new();
-            User model = mapper.ConvertToModel(command);
+            var model = mapper.ConvertToModel(command);
             model.Id = command.Id;
             return await _service.Remove(model);
         }

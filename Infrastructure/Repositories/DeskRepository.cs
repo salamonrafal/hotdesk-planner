@@ -1,4 +1,5 @@
-﻿using Core.Infrastructure;
+﻿#nullable enable
+using Core.Infrastructure;
 using Core.Models;
 using Core.Options;
 using Microsoft.Extensions.Options;
@@ -10,23 +11,19 @@ namespace Infrastructure.Repositories
 {
     public class DeskRepository<TClass> : IRepository<TClass> where TClass : Desk, new()
     {
-        private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TClass> _collection;
-        private readonly DatabaseOptions _options;
 
         public DeskRepository(IMongoClient client, IOptions<DatabaseOptions> options)
         {
-            _options = options.Value;
-            _database = client.GetDatabase(_options.Database);
-            _collection = _database.GetCollection<TClass>("desks");
+            var options1 = options.Value;
+            var database = client.GetDatabase(options1.Database);
+            _collection = database.GetCollection<TClass>("desks");
         }
 
         public async Task<bool> Delete(TClass model)
         {
-            var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
-            
-            if (model != null)
-                await _collection.DeleteOneAsync(filter);
+            var filter = Builders<TClass>.Filter.Eq (x => x.Id, model.Id);
+            await _collection.DeleteOneAsync (filter);
 
             return true;
         }
@@ -47,31 +44,24 @@ namespace Infrastructure.Repositories
         {
             var data = await _collection.FindAsync<TClass>(FilterDefinition<TClass>.Empty);
 
-            return await data.ToListAsync<TClass>();
+            return await data.ToListAsync();
         }
 
         public async Task<List<TClass>> Select(QueryDocument query)
         {
-            return await _collection.Find(query).ToListAsync<TClass>();
+            return await _collection.Find(query).Sort ("{id: -1}").ToListAsync();
         }
 
         public async Task<bool> Update(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
+            
+            await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
 
-            if (model != null)
-            {
-                var p = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
-        private UpdateDefinition<TClass> CreateUpdateDefinition(TClass model)
+        private static UpdateDefinition<TClass> CreateUpdateDefinition(TClass model)
         {
             var update = new List<UpdateDefinition<TClass>>();
 

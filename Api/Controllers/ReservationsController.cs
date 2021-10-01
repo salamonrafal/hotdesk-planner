@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
@@ -29,22 +28,21 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get all data about available reservations in the office")]
-        public async Task<List<Reservation>> Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return await _mediator.Send(new GetAllReservationCommand() { });
+                var data= await _mediator.Send(new GetAllReservationCommand());
+                
+                return Ok(data);
             }
             catch (CommandEmptyException)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return null;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return null;
+                return Problem (statusCode: 500);
             }
         }
 
@@ -54,22 +52,21 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Get data for specific reservation in the office")]
-        public async Task<Reservation> GetById([FromRoute] Guid reservationId)
+        public async Task<IActionResult> GetById([FromRoute] Guid reservationId)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return await _mediator.Send(new GetReservationCommand() { Id = reservationId });
+                var data =  await _mediator.Send(new GetReservationCommand() { Id = reservationId });
+                
+                return Ok(data);
             }
             catch (CommandEmptyException)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return null;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return null;
+                return Problem (statusCode: 500);
             }        
         }
 
@@ -78,22 +75,21 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Put new reservation into the list of available reservations in the office")]
-        public async Task<Guid> Insert([FromBody] InsertReservationCommand command)
+        public async Task<IActionResult> Insert([FromBody] InsertReservationCommand command)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return await _mediator.Send(command);
+                var data = await _mediator.Send(command);
+                
+                return Ok(data);
             }
             catch (CommandEmptyException)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Guid.Empty;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return Guid.Empty;
+                return Problem (statusCode: 500);
             }
         }
 
@@ -103,21 +99,22 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Update information about specific reservation")]
-        public async void Update([FromRoute] Guid reservationId, [FromBody] UpdateReservationCommand command)
+        public async Task<IActionResult> Update([FromRoute] Guid reservationId, [FromBody] UpdateReservationCommand command)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.Created;
-                command.UpdateId(reservationId);
-                await _mediator.Send(command);
+                command.UpdateId (reservationId);
+                await _mediator.Send (command);
+                
+                return NoContent();
             }
-            catch (CommandEmptyException)
+            catch ( CommandEmptyException )
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Problem (statusCode: 500);
             }
         }
 
@@ -127,20 +124,21 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Summary = "Remove reservation from list of available reservations in the office")]
-        public async Task Delete([FromRoute] Guid reservationId)
+        public async Task<IActionResult> Delete([FromRoute] Guid reservationId)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.Accepted;
-                await _mediator.Send(new DeleteReservationCommand() { Id = reservationId });
+                await _mediator.Send (new DeleteReservationCommand () {Id = reservationId});
+                
+                return Accepted();
             }
-            catch (CommandEmptyException)
+            catch ( CommandEmptyException )
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Problem (statusCode: 500);
             }
         }
 
@@ -154,22 +152,21 @@ namespace Api.Controllers
             Description = "If you would like to search reservations you should use below documentation about query document: " +
                 "<a href=\"https://docs.mongodb.com/manual/tutorial/query-documents/\">https://docs.mongodb.com/manual/tutorial/query-documents/</a>"
         )]
-        public async Task<List<Reservation>> Search([FromQuery] string query)
+        public async Task<IActionResult> Search([FromQuery] string query)
         {
             try
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return await _mediator.Send(new SearchReservationCommand() { Query = query });
+                var data = await _mediator.Send(new SearchReservationCommand() { Query = query });
+                
+                return Ok(data);
             }
             catch (CommandEmptyException)
             {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return null;
+                return BadRequest();
             }
             catch
             {
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return null;
+                return Problem (statusCode: 500);
             }
         }
     }

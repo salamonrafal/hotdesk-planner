@@ -10,7 +10,7 @@ namespace Api.Commands.Users.Handlers
 {
     public class GetUserHandler : IRequestHandler<GetUserCommand, User>
     {
-        public readonly IUserService _service;
+        private readonly IUserService _service;
 
         public GetUserHandler(IUserService service)
         {
@@ -22,7 +22,7 @@ namespace Api.Commands.Users.Handlers
             if (command == GetUserCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericUserCommandMapper<GetUserCommand, User> mapper = new();
-            User model = mapper.ConvertToModel(command);
+            var model = mapper.ConvertToModel(command);
             model.Id = command.Id;
             return await _service.Get(model);
         }

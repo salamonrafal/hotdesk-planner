@@ -12,6 +12,10 @@
 
 # Dotnet Profile
 
+# Rider IDE
+.idea/
+*.sln.DotSettings.user.user
+
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -10,7 +10,7 @@ namespace Api.Commands.Desk.Handlers
 {
     public class UpdateDeskHandler : IRequestHandler<UpdateDeskCommand, bool>
     {
-        public readonly IDeskService _service;
+        private readonly IDeskService _service;
 
         public UpdateDeskHandler(IDeskService service)
         {
@@ -22,7 +22,7 @@ namespace Api.Commands.Desk.Handlers
             if (command == UpdateDeskCommand.Empty) throw new CommandEmptyException("Command is Empty");
 
             GenericDeskCommandMapper<UpdateDeskCommand, DeskModel> mapper = new();
-            DeskModel desk = mapper.ConvertToModel(command);
+            var desk = mapper.ConvertToModel(command);
             desk.Id = command.Id;
             return await _service.Update(desk);
         }
