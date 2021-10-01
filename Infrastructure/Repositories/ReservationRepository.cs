@@ -10,15 +10,13 @@ namespace Infrastructure.Repositories
 {
     public class ReservationRepository<TClass> : IRepository<TClass> where TClass : Reservation, new()
     {
-        private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TClass> _collection;
-        private readonly DatabaseOptions _options;
 
         public ReservationRepository(IMongoClient client, IOptions<DatabaseOptions> options)
         {
-            _options = options.Value;
-            _database = client.GetDatabase(_options.Database);
-            _collection = _database.GetCollection<TClass>("reservations");
+            var options1 = options.Value;
+            var database = client.GetDatabase(options1.Database);
+            _collection = database.GetCollection<TClass>("reservations");
         }
 
         public async Task<bool> Delete(TClass model)
@@ -46,12 +44,12 @@ namespace Infrastructure.Repositories
         {
             var data = await _collection.FindAsync<TClass>(FilterDefinition<TClass>.Empty);
 
-            return await data.ToListAsync<TClass>();
+            return await data.ToListAsync();
         }
 
         public async Task<List<TClass>> Select(QueryDocument query)
         {
-            return await _collection.Find(query).Sort ("{id: -1}").ToListAsync<TClass>();
+            return await _collection.Find(query).Sort ("{id: -1}").ToListAsync();
         }
 
         public async Task<bool> Update(TClass model)

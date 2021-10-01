@@ -22,7 +22,7 @@ namespace Api.ServiceConfiguration
             var connectionString = string.Format(template, user, password, server, database);
             var databaseSettings = MongoClientSettings.FromConnectionString(connectionString);
 
-            services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(databaseSettings));
+            services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(databaseSettings));
         }
 
         private static string GetDatabaseUser(IConfiguration configuration)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Api.Commands.Reservations;
 using Api.Commands.Users;
 using Api.Controllers;
 using Core.Models;
@@ -49,7 +48,7 @@ namespace Unit.Api.Controllers
         [Test]
         public async Task ShouldReturnAllModelsGetMethod()
         {
-            var dataOutput = new List<User> () {new User (){ }};
+            var dataOutput = new List<User> () {new User ()};
             _mediatorMock.Setup(
                 x => x.Send(It.IsAny<GetAllUserCommand>(), It.IsAny<CancellationToken>())
             ).ReturnsAsync(dataOutput);

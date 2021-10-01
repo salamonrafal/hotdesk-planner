@@ -3,7 +3,7 @@
 namespace Unit.Core.Helpers
 {
     [TestFixture]
-    public class TUuidHelperTest
+    public class UuidHelperTest
     { 
         [Test]
         public void ShouldGenerateNewGuidForModel()

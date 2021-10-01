@@ -10,23 +10,20 @@ namespace Infrastructure.Repositories
 {
     public class UserRepository<TClass> : IRepository<TClass> where TClass : User, new()
     {
-        private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TClass> _collection;
-        private readonly DatabaseOptions _options;
 
         public UserRepository(IMongoClient client, IOptions<DatabaseOptions> options)
         {
-            _options = options.Value;
-            _database = client.GetDatabase(_options.Database);
-            _collection = _database.GetCollection<TClass>("users");
+            var options1 = options.Value;
+            var database = client.GetDatabase(options1.Database);
+            _collection = database.GetCollection<TClass>("users");
         }
 
         public async Task<bool> Delete(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
 
-            if (model != null)
-                await _collection.DeleteOneAsync(filter);
+            await _collection.DeleteOneAsync(filter);
 
             return true;
         }
@@ -47,11 +44,11 @@ namespace Infrastructure.Repositories
         {
             var data = await _collection.FindAsync<TClass>(FilterDefinition<TClass>.Empty);
 
-            return await data.ToListAsync<TClass>();
+            return await data.ToListAsync();
         }
         public async Task<List<TClass>> Select(QueryDocument query)
         {
-            return await _collection.Find(query).ToListAsync<TClass>();
+            return await _collection.Find(query).ToListAsync();
         }
 
         public async Task<bool> Update(TClass model)
@@ -60,7 +57,7 @@ namespace Infrastructure.Repositories
 
             if (model != null)
             {
-                var p = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
+                var _ = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
 
                 return true;
             }

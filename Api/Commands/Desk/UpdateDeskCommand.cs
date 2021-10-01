@@ -1,5 +1,4 @@
-﻿using Core.Models;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Text.Json.Serialization;
 using DeskModel = Core.Models.Desk;

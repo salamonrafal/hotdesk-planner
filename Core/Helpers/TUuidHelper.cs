@@ -4,7 +4,7 @@ using System;
 
 namespace Core.Helpers
 {
-    public static class TUuidHelper
+    public static class UuidHelper
     {
         public static void GenerateUuid(this BaseModel model)
         {
