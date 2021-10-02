@@ -107,7 +107,7 @@ namespace Integration.Helpers
                 Email = email,
                 Name = name,
                 Password = password,
-                Role = role ?? new List<UserRole> (){},
+                Role = role ?? new List<UserRole> (),
                 Surname = surname,
                 UrlAvatar = urlAvatar
             };

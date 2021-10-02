@@ -31,7 +31,7 @@ namespace Integration.Fixtures
             
             Host = ApplicationFactory.Create (testServices: services =>
             {
-                services.AddSingleton<IMongoClient, MongoClient>(sp => new MongoClient(Runner.ConnectionString));
+                services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(Runner.ConnectionString));
             });
             
             await Host.StartAsync ();

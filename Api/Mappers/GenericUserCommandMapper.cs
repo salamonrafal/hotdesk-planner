@@ -1,5 +1,4 @@
-﻿using Api.Commands.Reservations;
-using Api.Commands.Users;
+﻿using Api.Commands.Users;
 using Core.Models;
 
 namespace Api.Mappers

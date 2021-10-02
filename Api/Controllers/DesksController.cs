@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Http;
-using System.Net;
 using Core.Exceptions;
 
 namespace Api.Controllers
@@ -33,7 +32,7 @@ namespace Api.Controllers
         {
             try
             {
-                var data = await _mediator.Send (new GetAllDeskCommand () { });
+                var data = await _mediator.Send (new GetAllDeskCommand ());
                 
                 return Ok(data);
             }

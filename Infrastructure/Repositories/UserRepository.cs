@@ -10,23 +10,20 @@ namespace Infrastructure.Repositories
 {
     public class UserRepository<TClass> : IRepository<TClass> where TClass : User, new()
     {
-        private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TClass> _collection;
-        private readonly DatabaseOptions _options;
 
         public UserRepository(IMongoClient client, IOptions<DatabaseOptions> options)
         {
-            _options = options.Value;
-            _database = client.GetDatabase(_options.Database);
-            _collection = _database.GetCollection<TClass>("users");
+            var config = options.Value;
+            var database = client.GetDatabase(config.Database);
+            _collection = database.GetCollection<TClass>("users");
         }
 
         public async Task<bool> Delete(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
 
-            if (model != null)
-                await _collection.DeleteOneAsync(filter);
+            await _collection.DeleteOneAsync(filter);
 
             return true;
         }
@@ -39,35 +36,32 @@ namespace Infrastructure.Repositories
         public async Task<TClass> SelectOne(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
+            var cursor = await _collection.FindAsync (filter);
 
-            return await _collection.Find(filter).FirstOrDefaultAsync();
+            var data = await cursor.ToListAsync ();
+            
+            return data.Count > 0 ? data[0] : new TClass();
         }
 
         public async Task<List<TClass>> Select()
         {
-            var data = await _collection.FindAsync<TClass>(FilterDefinition<TClass>.Empty);
+            var data = await _collection
+                .FindAsync<TClass>(FilterDefinition<TClass>.Empty);
 
-            return await data.ToListAsync<TClass>();
+            return await data.ToListAsync();
         }
         public async Task<List<TClass>> Select(QueryDocument query)
         {
-            return await _collection.Find(query).ToListAsync<TClass>();
+            var cursor = await _collection.FindAsync (query);
+            return await cursor.ToListAsync ();
         }
 
         public async Task<bool> Update(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
+            var _ = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
 
-            if (model != null)
-            {
-                var p = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
         private static UpdateDefinition<TClass> CreateUpdateDefinition(TClass model)

@@ -1,5 +1,4 @@
 ﻿using Core.Models;
-using System;
 using DeskModel = Core.Models.Desk;
 
 namespace Api.Commands.Desk

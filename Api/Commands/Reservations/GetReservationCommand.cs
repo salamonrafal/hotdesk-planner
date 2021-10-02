@@ -1,7 +1,6 @@
 ﻿using Core.Models;
 using MediatR;
 using System;
-using System.Collections.Generic;
 
 namespace Api.Commands.Reservations
 {
@@ -9,7 +8,7 @@ namespace Api.Commands.Reservations
     {
         public Guid Id { get; set; }
 
-        public readonly static GetReservationCommand Empty = new();
+        public static readonly GetReservationCommand Empty = new();
 
         public static implicit operator Reservation(GetReservationCommand command) => new()
         {
