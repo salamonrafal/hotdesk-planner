@@ -45,7 +45,8 @@ namespace Infrastructure.Repositories
 
         public async Task<List<TClass>> Select()
         {
-            var data = await _collection.FindAsync<TClass>(FilterDefinition<TClass>.Empty);
+            var data = await _collection
+                .FindAsync<TClass>(FilterDefinition<TClass>.Empty);
 
             return await data.ToListAsync();
         }
