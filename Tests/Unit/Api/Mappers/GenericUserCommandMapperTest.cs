@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Api.Commands.Desk;
 using Api.Commands.Users;
 using Api.Mappers;
 using Core.Enums;

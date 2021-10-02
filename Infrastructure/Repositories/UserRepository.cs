@@ -14,8 +14,8 @@ namespace Infrastructure.Repositories
 
         public UserRepository(IMongoClient client, IOptions<DatabaseOptions> options)
         {
-            var options1 = options.Value;
-            var database = client.GetDatabase(options1.Database);
+            var config = options.Value;
+            var database = client.GetDatabase(config.Database);
             _collection = database.GetCollection<TClass>("users");
         }
 
@@ -36,8 +36,11 @@ namespace Infrastructure.Repositories
         public async Task<TClass> SelectOne(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
+            var cursor = await _collection.FindAsync (filter);
 
-            return await _collection.Find(filter).FirstOrDefaultAsync();
+            var data = await cursor.ToListAsync ();
+            
+            return data.Count > 0 ? data[0] : new TClass();
         }
 
         public async Task<List<TClass>> Select()
@@ -48,23 +51,16 @@ namespace Infrastructure.Repositories
         }
         public async Task<List<TClass>> Select(QueryDocument query)
         {
-            return await _collection.Find(query).ToListAsync();
+            var cursor = await _collection.FindAsync (query);
+            return await cursor.ToListAsync ();
         }
 
         public async Task<bool> Update(TClass model)
         {
             var filter = Builders<TClass>.Filter.Eq(x => x.Id, model.Id);
+            var _ = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
 
-            if (model != null)
-            {
-                var _ = await _collection.UpdateOneAsync(filter, CreateUpdateDefinition(model));
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
 
         private static UpdateDefinition<TClass> CreateUpdateDefinition(TClass model)

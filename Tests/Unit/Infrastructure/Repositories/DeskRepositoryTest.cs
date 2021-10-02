@@ -16,24 +16,24 @@ using Unit.Helpers;
 namespace Unit.Infrastructure.Repositories
 {
     [TestFixture]
-    public class ReservationRepositoryTest
+    public class DeskRepositoryTest
     {
-         private Mock<IMongoClient> _mongoClientMock;
+        private Mock<IMongoClient> _mongoClientMock;
         private IOptions<DatabaseOptions> _options;
-        private Mock<IMongoCollection<Reservation>> _mongoCollectionMock;
+        private Mock<IMongoCollection<Desk>> _mongoCollectionMock;
         private Mock<IMongoDatabase> _mongoDatabaseMock;
         
-        private IRepository<Reservation> _repository;
+        private IRepository<Desk> _repository;
 
         [SetUp]
         public void SetUp()
         {
             _mongoClientMock = new Mock<IMongoClient> ();
             _mongoDatabaseMock = new Mock<IMongoDatabase> ();
-            _mongoCollectionMock = new Mock<IMongoCollection<Reservation>> ();
+            _mongoCollectionMock = new Mock<IMongoCollection<Desk>> ();
 
             _mongoDatabaseMock.Setup (
-                    x => x.GetCollection<Reservation> (
+                    x => x.GetCollection<Desk> (
                         It.IsAny<string> (), 
                         It.IsAny<MongoCollectionSettings>()
                     )
@@ -58,7 +58,7 @@ namespace Unit.Infrastructure.Repositories
                 ConnectionString = "test"
             });
             
-            _repository = new ReservationRepository<Reservation> (_mongoClientMock.Object, _options);
+            _repository = new DeskRepository<Desk> (_mongoClientMock.Object, _options);
         }
         
         [Test]
@@ -66,11 +66,11 @@ namespace Unit.Infrastructure.Repositories
         {
             _mongoCollectionMock.Setup (
                 x => x.DeleteOneAsync (
-                    It.IsAny<FilterDefinition<Reservation>> (),
+                    It.IsAny<FilterDefinition<Desk>> (),
                     It.IsAny<CancellationToken>()
             ));
             
-            var model = new Reservation () {Id = Guid.NewGuid ()};
+            var model = new Desk () {Id = Guid.NewGuid ()};
             var result = await _repository.Delete (model);
 
             result.Should ().BeTrue ();
@@ -81,17 +81,17 @@ namespace Unit.Infrastructure.Repositories
         {
             _mongoCollectionMock.Setup (
                 x => x.InsertOneAsync (
-                    It.IsAny<Reservation> (),
+                    It.IsAny<Desk> (),
                     It.IsAny<InsertOneOptions>(),
                     It.IsAny<CancellationToken>()
                 ));
             
-            var model = new Reservation () {Id = Guid.NewGuid ()};
+            var model = new Desk () {Id = Guid.NewGuid ()};
             await _repository.Insert (model);
             
             _mongoCollectionMock.Verify(
                 x => x.InsertOneAsync (
-                    It.IsAny<Reservation>(), 
+                    It.IsAny<Desk>(), 
                     It.IsAny<InsertOneOptions>(),
                     It.IsAny<CancellationToken>()
                 ), 
@@ -104,19 +104,19 @@ namespace Unit.Infrastructure.Repositories
         {
             _mongoCollectionMock.Setup (
                 x => x.UpdateOneAsync (
-                    It.IsAny<FilterDefinition<Reservation>> (),
-                   It.IsAny<UpdateDefinition<Reservation>>(),
+                    It.IsAny<FilterDefinition<Desk>> (),
+                   It.IsAny<UpdateDefinition<Desk>>(),
                     It.IsAny<UpdateOptions>(),
                     It.IsAny<CancellationToken>()
                 ));
             
-            var model = new Reservation () {Id = Guid.NewGuid (), StartDate = DateTime.Now};
+            var model = new Desk () {Id = Guid.NewGuid (), Description = "test"};
             var result = await _repository.Update (model);
             
             _mongoCollectionMock.Verify(
                 x => x.UpdateOneAsync (
-                    It.IsAny<FilterDefinition<Reservation>> (),
-                    It.IsAny<UpdateDefinition<Reservation>>(),
+                    It.IsAny<FilterDefinition<Desk>> (),
+                    It.IsAny<UpdateDefinition<Desk>>(),
                     It.IsAny<UpdateOptions>(),
                     It.IsAny<CancellationToken>()
                 ), 
@@ -128,54 +128,53 @@ namespace Unit.Infrastructure.Repositories
         [Test]
         public async Task ShouldReturnOneModel()
         {
-            var now = DateTime.Now;
-            var model = new Reservation () {Id = Guid.NewGuid ()};
-            var listToOutput = new List<Reservation> ()
+            var model = new Desk () {Id = Guid.NewGuid ()};
+            var listToOutput = new List<Desk> ()
             {
-                new Reservation ()
+                new Desk ()
                 {
                     Id = model.Id,
-                    StartDate = now
+                    Description = "test"
                 }
             };
 
             _mongoCollectionMock
                 .Setup (m => m.FindAsync (
-                    It.IsAny<FilterDefinition<Reservation>>(),
-                    It.IsAny<FindOptions<Reservation,Reservation>>(),
+                    It.IsAny<FilterDefinition<Desk>>(),
+                    It.IsAny<FindOptions<Desk,Desk>>(),
                     It.IsAny<CancellationToken>()
                 ))
             .ReturnsAsync(MocksExtensions.CreateAsyncCursor(listToOutput).Object).Verifiable();
             
             var result = await _repository.SelectOne (model);
             
-            result.Should ().BeOfType<Reservation> ();
+            result.Should ().BeOfType<Desk> ();
             result.Id.Should ().Be (model.Id);
-            result.StartDate.Should ().Be (now);
+            result.Description.Should ().Be ("test");
         }
 
         [Test]
         public async Task ShouldReturnAllModels()
         {
-            var now = DateTime.Now;
-            var listToOutput = new List<Reservation> ()
+            
+            var listToOutput = new List<Desk> ()
             {
-                new Reservation ()
+                new Desk ()
                 {
                     Id = Guid.NewGuid (),
-                    StartDate = now
+                    Description = "test1"
                 },
-                new Reservation ()
+                new Desk ()
                 {
                     Id = Guid.NewGuid (),
-                    StartDate = now
+                    Description = "test2"
                 }
             };
 
             _mongoCollectionMock
                 .Setup (m => m.FindAsync (
-                    It.IsAny<FilterDefinition<Reservation>>(),
-                    It.IsAny<FindOptions<Reservation,Reservation>>(),
+                    It.IsAny<FilterDefinition<Desk>>(),
+                    It.IsAny<FindOptions<Desk,Desk>>(),
                     It.IsAny<CancellationToken>()
                 ))
                 .ReturnsAsync(MocksExtensions.CreateAsyncCursor(listToOutput).Object).Verifiable();
@@ -183,37 +182,36 @@ namespace Unit.Infrastructure.Repositories
             var result = await _repository.Select ();
 
             result.Should ().HaveCount (2);
-            result[0].Should ().BeOfType<Reservation> ();
+            result[0].Should ().BeOfType<Desk> ();
             result[0].Id.Should ().NotBeEmpty ();
-            result[0].StartDate.Should ().Be (now);
+            result[0].Description.Should ().Be ("test1");
             result[1].Id.Should ().NotBeEmpty ();
-            result[1].StartDate.Should ().Be (now);
+            result[1].Description.Should ().Be ("test2");
         }
 
         [Test]
         public async Task ShouldReturnListModelsFulfillingConditions()
         {
             var query = new QueryDocument ();
-            var now = DateTime.Now;
             
-            var listToOutput = new List<Reservation> ()
+            var listToOutput = new List<Desk> ()
             {
-                new Reservation ()
+                new Desk ()
                 {
                     Id = Guid.NewGuid (),
-                    StartDate = now
+                    Description = "test1"
                 },
-                new Reservation ()
+                new Desk ()
                 {
                     Id = Guid.NewGuid (),
-                    StartDate = now
+                    Description = "test2"
                 }
             };
 
             _mongoCollectionMock
                 .Setup (m => m.FindAsync (
-                    It.IsAny<FilterDefinition<Reservation>>(),
-                    It.IsAny<FindOptions<Reservation,Reservation>>(),
+                    It.IsAny<FilterDefinition<Desk>>(),
+                    It.IsAny<FindOptions<Desk,Desk>>(),
                     It.IsAny<CancellationToken>()
                 ))
                 .ReturnsAsync(MocksExtensions.CreateAsyncCursor(listToOutput).Object).Verifiable();
@@ -221,11 +219,11 @@ namespace Unit.Infrastructure.Repositories
             var result = await _repository.Select (query);
 
             result.Should ().HaveCount (2);
-            result[0].Should ().BeOfType<Reservation> ();
+            result[0].Should ().BeOfType<Desk> ();
             result[0].Id.Should ().NotBeEmpty ();
-            result[0].StartDate.Should ().Be (now);
+            result[0].Description.Should ().Be ("test1");
             result[1].Id.Should ().NotBeEmpty ();
-            result[1].StartDate.Should ().Be (now);
+            result[1].Description.Should ().Be ("test2");
         }
     }
 }
