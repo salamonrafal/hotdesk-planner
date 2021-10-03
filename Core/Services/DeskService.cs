@@ -6,20 +6,26 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Enums;
+using FluentValidation;
 
 namespace Core.Services
 {
     public class DeskService : IDeskService
     {
         private readonly IRepository<Desk> _repository;
+        private readonly IValidator<Desk> _validator;
 
-        public DeskService(IRepository<Desk> repository)
+        public DeskService(IRepository<Desk> repository, IValidator<Desk> validator)
         {
             _repository = repository;
+            _validator = validator;
         }
 
         public async Task<Desk> Get(Desk model)
         {
+            await ValidateModel (ValidationModelType.GetOne, model);
+            
             return await _repository.SelectOne(model);
         }
 
@@ -30,8 +36,10 @@ namespace Core.Services
 
         public async Task<Guid> Add(Desk model)
         {
+            await ValidateModel (ValidationModelType.Insert, model);
+            
             model.GenerateUuid();
-
+            
             await _repository.Insert(model);
 
             return model.Id;
@@ -39,6 +47,8 @@ namespace Core.Services
 
         public async Task<bool> Update(Desk model)
         {
+            await ValidateModel (ValidationModelType.Update, model);
+            
             return await _repository.Update(model);
         }
 
@@ -49,12 +59,26 @@ namespace Core.Services
 
         public async Task<bool> Remove(Desk model)
         {
+            await ValidateModel (ValidationModelType.Delete, model);
             return await _repository.Delete(model);
         }
 
         public async Task<List<Desk>> Search(BsonDocument query)
         {
             return await _repository.Select(new QueryDocument(query));
+        }
+
+        private async Task ValidateModel (ValidationModelType validationType, Desk model)
+        {
+            await _validator.ValidateAsync
+            (
+                instance: model,
+                options: o =>
+                {
+                    o.IncludeRuleSets (Enum.GetName (typeof(ValidationModelType), validationType));
+                    o.ThrowOnFailures ();
+                }
+            );
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Core.Infrastructure;
 using Core.Models;
 using Core.Services;
+using Core.Validators;
+using FluentValidation;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,12 +12,20 @@ namespace Api.ServiceConfiguration
     {
         public static void ServicesConfigure(this IServiceCollection services)
         {
-            services.AddSingleton<IDeskService, DeskService>();
-            services.AddSingleton<IReservationService, ReservationService>();
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton(typeof(IRepository<Desk>), typeof(DeskRepository<Desk>));
-            services.AddSingleton(typeof(IRepository<Reservation>), typeof(ReservationRepository<Reservation>));
-            services.AddSingleton(typeof(IRepository<User>), typeof(UserRepository<User>));
+            // Services
+            services.AddScoped<IDeskService, DeskService>();
+            services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IUserService, UserService>();
+            
+            // Repositories
+            services.AddScoped(typeof(IRepository<Desk>), typeof(DeskRepository<Desk>));
+            services.AddScoped(typeof(IRepository<Reservation>), typeof(ReservationRepository<Reservation>));
+            services.AddScoped(typeof(IRepository<User>), typeof(UserRepository<User>));
+
+            // Validators
+            services.AddScoped<IValidator<Desk>, DeskValidator> ();
+            services.AddScoped<IValidator<Reservation>, ReservationValidator> ();
+            services.AddScoped<IValidator<User>, UserValidator> ();
         }
     }
 }

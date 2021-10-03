@@ -5,6 +5,7 @@ using Core.Infrastructure;
 using Core.Models;
 using Core.Services;
 using FluentAssertions;
+using FluentValidation;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
@@ -16,13 +17,16 @@ namespace Unit.Core.Services
     public class ReservationServiceTest
     {
         private Mock<IRepository<Reservation>> _repository;
+        private Mock<IValidator<Reservation>> _validatorMock;
         private ReservationService _service;
         
         [SetUp]
         public void SetUp()
         {
             _repository = new Mock<IRepository<Reservation>> ();
-            _service = new ReservationService (_repository.Object);
+            _validatorMock = new Mock<IValidator<Reservation>> ();
+            
+            _service = new ReservationService (_repository.Object, _validatorMock.Object);
         }
         
         [Test]
