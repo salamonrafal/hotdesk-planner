@@ -58,7 +58,12 @@ namespace Api.Controllers
                 var data = await _mediator.Send(new GetUserCommand() { Id = userId });
                 
                 return Ok(data);
-            } catch (CommandEmptyException)
+            } 
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
+            }
+            catch (CommandEmptyException)
             {
                 return BadRequest();
             } catch
@@ -80,6 +85,10 @@ namespace Api.Controllers
                 var data = await _mediator.Send(command);
                 
                 return Ok(data);
+            }
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
             }
             catch (CommandEmptyException)
             {
@@ -106,6 +115,10 @@ namespace Api.Controllers
                 
                 return NoContent ();
             }
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
+            }
             catch ( CommandEmptyException )
             {
                 return BadRequest();
@@ -129,6 +142,10 @@ namespace Api.Controllers
                 await _mediator.Send (new DeleteUserCommand () {Id = userId});
                 
                 return Accepted ();
+            }
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
             }
             catch ( CommandEmptyException )
             {
