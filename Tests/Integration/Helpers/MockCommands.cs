@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Api.Commands.Desk;
 using Api.Commands.Reservations;
 using Api.Commands.Users;
+using Core.Enums;
 using Core.Models;
 
 namespace Integration.Helpers
@@ -65,32 +66,56 @@ namespace Integration.Helpers
             public static InsertReservationCommand CreateInsertCommand
             (
                 Guid userId = new Guid (),
-                DateTime endDate = new DateTime (),
-                DateTime startDate = new DateTime (),
+                DateTime? startDate = null,
+                double? endDays = null,
                 bool isPeriodical = false,
                 PeriodicDetail? periodicDetail = null
-            ) => new ()
+            )
             {
-                AssignedTo = userId,
-                EndDate = endDate,
-                StartDate = startDate,
-                IsPeriodical = isPeriodical,
-                PeriodicDetail = periodicDetail ?? new PeriodicDetail ()
-            };
+                var start = DateTime.Now;
+                var end = start.AddDays (30);
+                
+                if (startDate != null)
+                    start = (DateTime) startDate;
+                
+                if (endDays != null)
+                    end = start.AddDays ((double) endDays);
+                
+                return new InsertReservationCommand
+                {
+                    AssignedTo = userId,
+                    EndDate = end,
+                    StartDate = start,
+                    IsPeriodical = isPeriodical,
+                    PeriodicDetail = periodicDetail ?? new PeriodicDetail ()
+                };
+            }
 
             public static UpdateReservationCommand CreateUpdateCommand
             (
-                DateTime endDate = new DateTime (),
-                DateTime startDate = new DateTime (),
+                DateTime? startDate = null,
+                double? endDays = null,
                 bool isPeriodical = false,
                 PeriodicDetail? periodicDetail = null
-            ) => new ()
+            )
             {
-                StartDate = startDate,
-                EndDate = endDate,
-                IsPeriodical = isPeriodical,
-                PeriodicDetail = periodicDetail
-            };
+                var start = DateTime.Now;
+                var end = start.AddDays (30);
+                
+                if (startDate != null)
+                    start = (DateTime) startDate;
+                
+                if (endDays != null)
+                    end = start.AddDays ((double) endDays);
+                
+                return new()
+                {
+                    StartDate = start,
+                    EndDate = end,
+                    IsPeriodical = isPeriodical,
+                    PeriodicDetail = periodicDetail
+                };
+            }
         }
 
         public static class UserModel
@@ -107,7 +132,7 @@ namespace Integration.Helpers
                 Email = email,
                 Name = name,
                 Password = password,
-                Role = role ?? new List<UserRole> (),
+                Role = role ?? new List<UserRole> (){new UserRole (){DisplayName = "User", RoleType = RoleType.Moderator}},
                 Surname = surname,
                 UrlAvatar = urlAvatar
             };

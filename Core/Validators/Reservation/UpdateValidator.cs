@@ -1,4 +1,5 @@
-﻿using Core.Enums;
+﻿using System;
+using Core.Enums;
 using Core.Validators.Desk;
 using FluentValidation;
 
@@ -10,9 +11,9 @@ namespace Core.Validators.Reservation
         {
             RuleSet (nameof(ValidationModelType.Update), () =>
             {
-                RuleFor (model => model.Id).NotNull ().NotEmpty ();
-                RuleFor (model => model.AssignedTo).Null ();
-                RuleFor (model => model.DeskId).Null ();
+                RuleFor (model => model.Id).NotNull ().NotEmpty ().NotEqual (Guid.Empty);
+                RuleFor (model => model.AssignedTo).Equal (Guid.Empty);
+                RuleFor (model => model.DeskId).Equal (Guid.Empty);
                 
                 RuleFor (model => model.StartDate)
                     .NotEmpty ()

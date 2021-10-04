@@ -24,7 +24,7 @@ namespace Core.Services
 
         public async Task<Guid> Add(User model)
         {
-            await ValidateModel (ValidationModelType.Insert, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Insert, model);
                 
             model.GenerateUuid();
 
@@ -35,7 +35,7 @@ namespace Core.Services
 
         public async Task<User> Get(User model)
         {
-            await ValidateModel (ValidationModelType.GetOne, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.GetOne, model);
             
             return await _repository.SelectOne(model);
         }
@@ -47,7 +47,7 @@ namespace Core.Services
 
         public async Task<bool> Remove(User model)
         {
-            await ValidateModel (ValidationModelType.Delete, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Delete, model);
             
             return await _repository.Delete(model);
         }
@@ -64,22 +64,9 @@ namespace Core.Services
 
         public async Task<bool> Update(User model)
         {
-            await ValidateModel (ValidationModelType.Update, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Update, model);
             
             return await _repository.Update(model);
-        }
-        
-        private async Task ValidateModel (ValidationModelType validationType, User model)
-        {
-            await _validator.ValidateAsync
-            (
-                instance: model,
-                options: o =>
-                {
-                    o.IncludeRuleSets (Enum.GetName (typeof(ValidationModelType), validationType));
-                    o.ThrowOnFailures ();
-                }
-            );
         }
     }
 }

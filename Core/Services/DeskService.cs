@@ -24,7 +24,7 @@ namespace Core.Services
 
         public async Task<Desk> Get(Desk model)
         {
-            await ValidateModel (ValidationModelType.GetOne, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.GetOne, model);
             
             return await _repository.SelectOne(model);
         }
@@ -36,7 +36,7 @@ namespace Core.Services
 
         public async Task<Guid> Add(Desk model)
         {
-            await ValidateModel (ValidationModelType.Insert, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Insert, model);
             
             model.GenerateUuid();
             
@@ -47,7 +47,7 @@ namespace Core.Services
 
         public async Task<bool> Update(Desk model)
         {
-            await ValidateModel (ValidationModelType.Update, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Update, model);
             
             return await _repository.Update(model);
         }
@@ -59,26 +59,13 @@ namespace Core.Services
 
         public async Task<bool> Remove(Desk model)
         {
-            await ValidateModel (ValidationModelType.Delete, model);
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Delete, model);
             return await _repository.Delete(model);
         }
 
         public async Task<List<Desk>> Search(BsonDocument query)
         {
             return await _repository.Select(new QueryDocument(query));
-        }
-
-        private async Task ValidateModel (ValidationModelType validationType, Desk model)
-        {
-            await _validator.ValidateAsync
-            (
-                instance: model,
-                options: o =>
-                {
-                    o.IncludeRuleSets (Enum.GetName (typeof(ValidationModelType), validationType));
-                    o.ThrowOnFailures ();
-                }
-            );
         }
     }
 }
