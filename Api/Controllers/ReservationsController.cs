@@ -60,6 +60,10 @@ namespace Api.Controllers
                 
                 return Ok(data);
             }
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
+            }
             catch (CommandEmptyException)
             {
                 return BadRequest();
@@ -82,6 +86,10 @@ namespace Api.Controllers
                 var data = await _mediator.Send(command);
                 
                 return Ok(data);
+            }
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
             }
             catch (CommandEmptyException)
             {
@@ -108,6 +116,10 @@ namespace Api.Controllers
                 
                 return NoContent();
             }
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
+            }
             catch ( CommandEmptyException )
             {
                 return BadRequest();
@@ -131,6 +143,10 @@ namespace Api.Controllers
                 await _mediator.Send (new DeleteReservationCommand () {Id = reservationId});
                 
                 return Accepted();
+            }
+            catch ( FluentValidation.ValidationException ex )
+            {
+                return BadRequest (ex.Message);
             }
             catch ( CommandEmptyException )
             {

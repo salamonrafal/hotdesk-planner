@@ -5,6 +5,7 @@ using Core.Infrastructure;
 using Core.Models;
 using Core.Services;
 using FluentAssertions;
+using FluentValidation;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
@@ -16,13 +17,16 @@ namespace Unit.Core.Services
     public class DeskServiceTest 
     {
         private Mock<IRepository<Desk>> _repository;
+        private Mock<IValidator<Desk>> _validatorMock;
         private DeskService _service;
         
         [SetUp]
         public void SetUp()
         {
             _repository = new Mock<IRepository<Desk>> ();
-            _service = new DeskService (_repository.Object);
+            _validatorMock = new Mock<IValidator<Desk>> ();
+            
+            _service = new DeskService (_repository.Object, _validatorMock.Object);
         }
         
         [Test]

@@ -6,20 +6,26 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Enums;
+using FluentValidation;
 
 namespace Core.Services
 {
     public class ReservationService : IReservationService
     {
         private readonly IRepository<Reservation> _repository;
+        private readonly IValidator<Reservation> _validator;
 
-        public ReservationService(IRepository<Reservation> repository)
+        public ReservationService(IRepository<Reservation> repository, IValidator<Reservation> validator)
         {
             _repository = repository;
+            _validator = validator;
         }
 
         public async Task<Guid> Add(Reservation model)
         {
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Insert, model);
+            
             model.GenerateUuid();
 
             await _repository.Insert(model);
@@ -29,6 +35,8 @@ namespace Core.Services
 
         public async Task<Reservation> Get(Reservation model)
         {
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.GetOne, model);
+            
             return await _repository.SelectOne(model);
         }
 
@@ -39,6 +47,8 @@ namespace Core.Services
 
         public async Task<bool> Remove(Reservation model)
         {
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Delete, model);
+            
             return await _repository.Delete(model);
         }
 
@@ -49,6 +59,8 @@ namespace Core.Services
 
         public async Task<bool> Update(Reservation model)
         {
+            await ServiceExtensions.ValidateModel (_validator, ValidationModelType.Update, model);
+            
             return await _repository.Update(model);
         }
     }

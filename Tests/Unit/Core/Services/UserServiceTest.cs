@@ -5,6 +5,7 @@ using Core.Infrastructure;
 using Core.Models;
 using Core.Services;
 using FluentAssertions;
+using FluentValidation;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Moq;
@@ -16,13 +17,16 @@ namespace Unit.Core.Services
     public class UserServiceTest
     {
         private Mock<IRepository<User>> _repository;
+        private Mock<IValidator<User>> _validatorMock;
         private UserService _service;
         
         [SetUp]
         public void SetUp()
         {
             _repository = new Mock<IRepository<User>> ();
-            _service = new UserService (_repository.Object);
+            _validatorMock = new Mock<IValidator<User>> ();
+            
+            _service = new UserService (_repository.Object, _validatorMock.Object);
         }
         
         [Test]

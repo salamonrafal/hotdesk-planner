@@ -3,13 +3,15 @@
 # hotdesk-planner
 [![.NET](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml/badge.svg)](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml) ![GitHub last commit](https://img.shields.io/github/last-commit/salamonrafal/hotdesk-planner?label=Last%20commit) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/salamonrafal/hotdesk-planner)
 
-* [Unit & Integration tests](#)
-	* [Integration tests](#)
-		* [Structure of directories](#)
-		* [Mocking MongoDB ](#)
-		* [Code Coverage ](#)
-	* [Unit tests ](#)
-		* [Structure of directories](#)
+* [Unit & Integration tests](#Unit--Integration-tests)
+    * [Integration tests](#Integration-tests)
+        * [Structure of directories](#Structure-of-directories)
+        * [Mocking MongoDB](#Mocking-MongoDB)
+        * [Code Coverage](#Code-Coverage)
+    * [Unit tests](#Unit-tests)
+        * [Structure of directories](#Structure-of-directories)
+* [Model validation](#Model-validation)
+  * [Validation Types](#Validation-Types)
 
 ## Unit & Integration tests
 
@@ -48,7 +50,6 @@ For those reasons tests use external package [Mongo2Go](https://github.com/Mongo
 #### Code Coverage
 
 For calculate code coverage was used [Coverlet](https://github.com/coverlet-coverage/coverlet#coverlet) and for generating report human readable was used [ReportGenerator](https://github.com/danielpalme/ReportGenerator#reportgenerator).
-
 For create coverage report you have to use script:
 
 **For Windows platform**
@@ -82,3 +83,17 @@ Script generate two versions of code coverage: HTML and XML. Both versions place
             : Directory contains test data for feeding tests
             
 ```
+
+## Model validation
+
+Service use `FluentValidation` for validating data models before run any action with repository.
+All Validators you find in `Core.Validators`. Any information about external package for validating use in project you able to read: [https://docs.fluentvalidation.net/en/latest/index.html](https://docs.fluentvalidation.net/en/latest/index.html)
+
+### Validation Types
+
+Service has defined rules of set depends what action you need  to execute:
+
+* _Core.Enums.ValidationModelType.GetOne_
+* _Core.Enums.ValidationModelType.Insert_
+* _Core.Enums.ValidationModelType.Update_
+* _Core.Enums.ValidationModelType.Delete_
