@@ -1,6 +1,5 @@
 ﻿using System;
 using Core.Enums;
-using Core.Validators.Desk;
 using FluentValidation;
 
 namespace Core.Validators.Reservation

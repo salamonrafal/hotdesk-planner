@@ -29,27 +29,14 @@ namespace Api.ServiceConfiguration
         {
             var dbConfig = configuration.GetSection ("Database");
 
-            var userConfiguration = dbConfig.GetValue<string>("User") != ""
-                ? dbConfig.GetValue<string>("User")
-                : configuration["MongoDB:DB_USER"] ?? "";
-
-
-            return Environment.GetEnvironmentVariable("DB_USER") != ""
-                ? Environment.GetEnvironmentVariable("DB_USER")
-                : userConfiguration;
+            return dbConfig.GetValue<string>("User");
         }
         
         private static string GetDatabasePassword(IConfiguration configuration)
         {
             var dbConfig = configuration.GetSection ("Database");
             
-            var passwordConfiguration = dbConfig.GetValue<string>("Password") != ""
-                ? dbConfig.GetValue<string>("Password")
-                : configuration["MongoDB:DB_PASSWORD"] ?? "";
-
-            return Environment.GetEnvironmentVariable("DB_PASSWORD") != ""
-                ? Environment.GetEnvironmentVariable("DB_PASSWORD")
-                : passwordConfiguration;
+            return dbConfig.GetValue<string>("Password");
         }
     }
 }
