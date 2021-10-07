@@ -29,7 +29,5 @@ namespace Core.Models
         [BsonElement("desk_id")]
         [BsonRepresentation(BsonType.String)]
         public Guid? DeskId { get; set; }
-
-        public static readonly Reservation Empty = new();
     }
 }

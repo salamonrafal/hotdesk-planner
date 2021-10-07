@@ -27,7 +27,5 @@ namespace Core.Models
         [BsonRequired]
         [BsonElement("email")]
         public string Email { get; set; }
-
-        public readonly static User Empty = new();
     }
 }

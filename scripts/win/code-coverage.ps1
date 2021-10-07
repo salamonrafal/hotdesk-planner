@@ -1,7 +1,11 @@
 $nugetPath = "C:\Users\rafcio0584\.nuget\packages\"
-$exitCode = 0;
+$exitCode = 0
+$threshold = 75
+$thresholdType = 'line'
+$excludeFiles = './Api/Properties/**/*.*'
 $directoryCoverage = '.\.coverage\'
 $directoryReportCoverage = 'reports\'
+$directoryHistoryCoverage = 'history\'
 $integrationDll = './Tests/Integration/bin/Debug/net5.0/Integration.dll'
 $integrationReportFileName = 'report-integration.json'
 $unitDll = './Tests/Unit/bin/Debug/net5.0/Unit.dll'
@@ -10,9 +14,10 @@ $errors = @()
 $pathFileIntegrationReport = "$directoryCoverage$integrationReportFileName" 
 $pathFileOutputReport = "$directoryCoverage$outputReportFileName"
 $pathOutputReportCoverage = "$directoryCoverage$directoryReportCoverage"
-$cmdIntegration = "coverlet $integrationDll --target `"dotnet`" --targetargs `"test ./Tests/Integration --no-build`" -o `"$pathFileIntegrationReport`" --verbosity minimal"
-$cmdUnit = "coverlet $unitDll --target `"dotnet`" --targetargs `"test ./Tests/Unit --no-build`" -o `"$pathFileOutputReport`" --merge-with  `"$pathFileIntegrationReport`" --format opencover --verbosity minimal"
-$cmdReportGenerator = $nugetPath + "reportgenerator\4.8.13\tools\net5.0\ReportGenerator.exe  `"-reports:$pathFileOutputReport`" `"-targetdir:$pathOutputReportCoverage`" `"-reporttypes:Html;Xml`" `"-verbosity: Warning`""
+$pathOutputHistoryCoverage = "$directoryCoverage$directoryHistoryCoverage"
+$cmdIntegration = "coverlet $integrationDll --target `"dotnet`" --targetargs `"test ./Tests/Integration --no-build`" -o `"$pathFileIntegrationReport`" --verbosity minimal --threshold $threshold --threshold-type $thresholdType --exclude-by-file `"$excludeFiles`""
+$cmdUnit = "coverlet $unitDll --target `"dotnet`" --targetargs `"test ./Tests/Unit --no-build`" -o `"$pathFileOutputReport`" --merge-with  `"$pathFileIntegrationReport`" --format opencover --verbosity minimal --threshold $threshold --threshold-type $thresholdType --exclude-by-file `"$excludeFiles`""
+$cmdReportGenerator = $nugetPath + "reportgenerator\4.8.13\tools\net5.0\ReportGenerator.exe  `"-reports:$pathFileOutputReport`" `"-targetdir:$pathOutputReportCoverage`" `"-reporttypes:Html;HtmlSummary;Xml`" `"-verbosity: Warning`" `"-historydir:$pathOutputHistoryCoverage`""
 
 Write-Output "Collecting Integration tests"
 $cmdIntegration

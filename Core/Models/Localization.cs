@@ -16,7 +16,5 @@ namespace Core.Models
         [BsonElement("coordination")]
         public Coordination Coordination { get; set; }
 
-
-        public readonly static Localization Empty = new();
     }
 }

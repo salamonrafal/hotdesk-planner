@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Api.Commands.Users;
 using Api.Controllers;
 using Core.Models;
 using FluentAssertions;
@@ -9,7 +10,7 @@ using Integration.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-
+using static Integration.Helpers.MockCommands.UserModel;
 using NUnit.Framework;
 
 namespace Integration.Tests
@@ -123,6 +124,180 @@ namespace Integration.Tests
                     var response = okResult.Value as List<User>;
 
                     response.ShouldBeOn (_testIdSearch);
+                }
+            }
+        }
+        
+        [TestFixture(TestOf = typeof(DesksController))]
+        [Author("Rafał Salamon", "rasa+code@salamonrafal.pl")]
+        [Category("Alternative")]
+        public class AlternativeScenarios: UsersControllerTest
+        {
+            [SetUp] 
+            public override async Task SetUpForAlternative()
+            {
+                await base.SetUpForAlternative ();
+                _controller = new UsersController (Host?.Services.GetService<IMediator>());
+            }
+            
+            [Test]
+            public async Task ShouldReturnEmptyArrayForGetAllUsers()
+            {
+                var actionResult = await _controller?.Get ()!;
+
+                actionResult.Should ().BeOfType<OkObjectResult> ();
+
+                if ( actionResult is OkObjectResult okResult )
+                {
+                    var response = okResult.Value as List<User>;
+                    response.Should ().HaveCount (0);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnProblemStateForGetAllUsers()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.Get ()!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnEmptyUserById()
+            {
+                var actionResult = await _controller?.GetById (Guid.Parse (TestIdGet))!;
+
+                actionResult.Should ().BeOfType<OkObjectResult> ();
+
+                if ( actionResult is OkObjectResult okResult )
+                {
+                    var response = okResult.Value as User;
+
+                    response?.Email.Should ().BeNull ();
+                    response?.Name.Should ().BeNull ();
+                    response?.Password.Should ().BeNull ();
+                    response?.Role.Should ().BeNull ();
+                    response?.Surname.Should ().BeNull ();
+                    response?.UrlAvatar.Should ().BeNull ();
+                    response.Should ().NotBeNull ();
+                    response?.Id.Should ().Be (Guid.Empty);
+                    response?.DocumentId.Should ().Be (Guid.Empty);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForUserById()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.GetById (Guid.Parse (TestIdGet))!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForInsertUserToStore()
+            {
+                InsertUserCommand command = new InsertUserCommand ();
+
+                var actionResult = await _controller?.Insert (command)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForUpdateUserToStore()
+            {
+                UpdateUserCommand command = new UpdateUserCommand ()
+                {
+                   UrlAvatar = "",
+                   Name = ""
+                };
+
+                var actionResult = await _controller?.Update (Guid.Parse (TestIdUpdate), command)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForDeleteUserFromStore()
+            {
+                var actionResult = await _controller?.Delete (Guid.Empty)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForSearchUser()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.Search ("")!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForInsertUser()
+            {
+                IsThrowException = true;
+                InsertUserCommand command = CreateInsertCommand ();
+                
+                var actionResult = await _controller?.Insert(command)!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForDeleteUser()
+            {
+                IsThrowException = true;
+          
+                var actionResult = await _controller?.Delete(Guid.Parse (TestIdDelete))!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForUpdateUser()
+            {
+                IsThrowException = true;
+                
+                var command = CreateUpdateCommand ();
+                var actionResult = await _controller?.Update(Guid.Parse (TestIdUpdate), command)!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
                 }
             }
         }

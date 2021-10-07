@@ -1,5 +1,4 @@
 ﻿using Api.Mappers;
-using Core.Exceptions;
 using Core.Models;
 using Core.Services;
 using MediatR;
@@ -20,8 +19,6 @@ namespace Api.Commands.Reservations.Handlers
 
         public async Task<Guid> Handle(InsertReservationCommand command, CancellationToken cancellationToken)
         {
-            if (command == InsertReservationCommand.Empty) throw new CommandEmptyException("Command is Empty");
-
             GenericReservationCommandMapper<InsertReservationCommand, Reservation> mapper = new();
             var desk = mapper.ConvertToModel(command);
             return await _service.Add(desk);

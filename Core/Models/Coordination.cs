@@ -11,7 +11,5 @@ namespace Core.Models
         [BsonRequired]
         [BsonElement("y")]
         public float? Y { get; set; }
-
-        public readonly static Coordination Empty = new();
     }
 }
