@@ -1,5 +1,4 @@
 ﻿using Api.Mappers;
-using Core.Exceptions;
 using Core.Models;
 using Core.Services;
 using MediatR;
@@ -19,8 +18,6 @@ namespace Api.Commands.Users.Handlers
 
         public async Task<bool> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
-            if (command == DeleteUserCommand.Empty) throw new CommandEmptyException("Command is Empty");
-
             GenericUserCommandMapper<DeleteUserCommand, User> mapper = new();
             var model = mapper.ConvertToModel(command);
             model.Id = command.Id;

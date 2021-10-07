@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Api.Commands.Reservations;
 using Api.Controllers;
 using Core.Models;
 using FluentAssertions;
@@ -10,6 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using static Integration.Helpers.MockCommands.ReservationModel;
 
 namespace Integration.Tests
 {
@@ -60,7 +62,7 @@ namespace Integration.Tests
             [Test]
             public async Task ShouldInsertReservationToStore()
             {
-                var command = MockCommands.ReservationModel.CreateInsertCommand ();
+                var command = CreateInsertCommand ();
 
                 var actionResult = await _controller?.Insert (command)!;
 
@@ -100,7 +102,7 @@ namespace Integration.Tests
             [Test]
             public async Task ShouldUpdateReservation()
             {
-                var command = MockCommands.ReservationModel.CreateUpdateCommand (startDate: DateTime.Today);
+                var command = CreateUpdateCommand (startDate: DateTime.Today);
                 var actionResult = await _controller?.Update (Guid.Parse (TestIdUpdate), command)!;
 
                 actionResult.Should ().BeOfType<NoContentResult> ();
@@ -118,6 +120,181 @@ namespace Integration.Tests
                     var response = okResult.Value as List<Reservation>;
 
                     response.ShouldBeOn (_testIdSearch);
+                }
+            }
+        }
+        
+        [TestFixture(TestOf = typeof(DesksController))]
+        [Author("Rafał Salamon", "rasa+code@salamonrafal.pl")]
+        [Category("Alternative")]
+        public class AlternativeScenarios: ReservationsControllerTest
+        {
+            [SetUp] 
+            public override async Task SetUpForAlternative()
+            {
+                await base.SetUpForAlternative ();
+                _controller = new ReservationsController (Host?.Services.GetService<IMediator>());
+            }
+            
+            [Test]
+            public async Task ShouldReturnEmptyArrayForGetAllReservations()
+            {
+                var actionResult = await _controller?.Get ()!;
+
+                actionResult.Should ().BeOfType<OkObjectResult> ();
+
+                if ( actionResult is OkObjectResult okResult )
+                {
+                    var response = okResult.Value as List<Reservation>;
+                    response.Should ().HaveCount (0);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnProblemStateForGetAllReservations()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.Get ()!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnEmptyReservationById()
+            {
+                var actionResult = await _controller?.GetById (Guid.Parse (TestIdGet))!;
+
+                actionResult.Should ().BeOfType<OkObjectResult> ();
+
+                if ( actionResult is OkObjectResult okResult )
+                {
+                    var response = okResult.Value as Reservation;
+                    response?.AssignedTo.Should ().BeNull ();
+                    response?.DeskId.Should ().BeNull ();
+                    response?.StartDate.Should ().BeNull ();
+                    response?.EndDate.Should ().BeNull ();
+                    response?.PeriodicDetail.Should ().BeNull ();
+                    response?.IsPeriodical.Should ().BeNull ();
+                    response.Should ().NotBeNull ();
+                    response?.Id.Should ().Be (Guid.Empty);
+                    response?.DocumentId.Should ().Be (Guid.Empty);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForReservationById()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.GetById (Guid.Parse (TestIdGet))!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForInsertReservationToStore()
+            {
+                InsertReservationCommand command = new InsertReservationCommand ();
+
+                var actionResult = await _controller?.Insert (command)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForUpdateReservationToStore()
+            {
+                var date = DateTime.Now;
+                
+                UpdateReservationCommand command = new UpdateReservationCommand ()
+                {
+                    StartDate = date, 
+                    EndDate = date
+                };
+
+                var actionResult = await _controller?.Update (Guid.Parse (TestIdUpdate), command)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForDeleteReservationFromStore()
+            {
+                var actionResult = await _controller?.Delete (Guid.Empty)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForSearchReservation()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.Search ("")!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForInsertReservation()
+            {
+                IsThrowException = true;
+                InsertReservationCommand command = CreateInsertCommand ();
+                
+                var actionResult = await _controller?.Insert(command)!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForDeleteReservation()
+            {
+                IsThrowException = true;
+          
+                var actionResult = await _controller?.Delete(Guid.Parse (TestIdDelete))!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForUpdateReservation()
+            {
+                IsThrowException = true;
+                
+                var command = CreateUpdateCommand ();
+                var actionResult = await _controller?.Update(Guid.Parse (TestIdUpdate), command)!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
                 }
             }
         }

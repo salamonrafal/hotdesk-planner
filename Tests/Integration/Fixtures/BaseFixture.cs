@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Integration.ApplicationFactories;
@@ -22,16 +23,35 @@ namespace Integration.Fixtures
         
         protected IHost? Host;
         protected MongoDbRunner? Runner;
+        protected bool IsThrowException = false;
         
         public virtual async Task SetUpForSuccess()
         {
-            Runner = MongoDbRunner.StartForDebugging();
+            Runner = MongoDbRunner.Start(additionalMongodArguments: "--quiet");
 
             ImportAllTestData ();
             
             Host = ApplicationFactory.Create (testServices: services =>
             {
                 services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(Runner.ConnectionString));
+            });
+            
+            await Host.StartAsync ();
+        }
+
+        public virtual async Task SetUpForAlternative()
+        {
+            Runner = MongoDbRunner.Start(additionalMongodArguments: "--quiet");
+            Host = ApplicationFactory.Create (testServices: services =>
+            {
+                services.AddSingleton<IMongoClient, MongoClient>(_ =>
+                    {
+                        if ( IsThrowException )
+                            throw new Exception ("Some problem");
+                        
+                        return new MongoClient (Runner.ConnectionString);
+                    }
+                );
             });
             
             await Host.StartAsync ();

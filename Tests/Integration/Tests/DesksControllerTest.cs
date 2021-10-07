@@ -123,5 +123,173 @@ namespace Integration.Tests
                 }
             }
         }
+        
+        
+        [TestFixture(TestOf = typeof(DesksController))]
+        [Author("Rafał Salamon", "rasa+code@salamonrafal.pl")]
+        [Category("Alternative")]
+        public class AlternativeScenarios: DesksControllerTest
+        {
+            [SetUp]
+            public override async Task SetUpForAlternative()
+            {
+                await base.SetUpForAlternative ();
+                _controller = new DesksController (Host?.Services.GetService<IMediator>());
+            }
+            
+            [Test]
+            public async Task ShouldReturnEmptyArrayForGetAllDesks()
+            {
+                var actionResult = await _controller?.Get ()!;
+
+                actionResult.Should ().BeOfType<OkObjectResult> ();
+
+                if ( actionResult is OkObjectResult okResult )
+                {
+                    var response = okResult.Value as List<Desk>;
+                    response.Should ().HaveCount (0);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnProblemStateForGetAllDesks()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.Get ()!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnEmptyDeskById()
+            {
+                var actionResult = await _controller?.GetById (Guid.Parse (TestIdGet))!;
+
+                actionResult.Should ().BeOfType<OkObjectResult> ();
+
+                if ( actionResult is OkObjectResult okResult )
+                {
+                    var response = okResult.Value as Desk;
+
+                    response.Should ().NotBeNull ();
+                    response?.Description.Should ().BeNull ();
+                    response?.Localization.Should ().BeNull ();
+                    response?.IsBlocked.Should ().BeNull ();
+                    response?.Id.Should ().Be (Guid.Empty);
+                    response?.DocumentId.Should ().Be (Guid.Empty);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForDeskById()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.GetById (Guid.Parse (TestIdGet))!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForInsertDeskToStore()
+            {
+                InsertDeskCommand command = new InsertDeskCommand ();
+
+                var actionResult = await _controller?.Insert (command)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForUpdateDeskToStore()
+            {
+                UpdateDeskCommand command = new UpdateDeskCommand () { Description = ""};
+
+                var actionResult = await _controller?.Update (Guid.Parse (TestIdUpdate), command)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldReturnBadRequestForEmptyRequestForDeleteDeskFromStore()
+            {
+                var actionResult = await _controller?.Delete (Guid.Empty)!;
+
+                actionResult.Should ().BeOfType<BadRequestObjectResult> ();
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForSearchDesk()
+            {
+                IsThrowException = true;
+                
+                var actionResult = await _controller?.Search ("")!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForInsertDesk()
+            {
+                IsThrowException = true;
+                InsertDeskCommand command = MockCommands.DeskModel.CreateInsertCommand ();
+                
+                var actionResult = await _controller?.Insert(command)!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForDeleteDesk()
+            {
+                IsThrowException = true;
+          
+                var actionResult = await _controller?.Delete(Guid.Parse (TestIdDelete))!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+            
+            [Test]
+            public async Task ShouldThrowExceptionUnhandledForUpdateDesk()
+            {
+                IsThrowException = true;
+                
+                var command = MockCommands.DeskModel.CreateUpdateCommand (description: "Description updated");
+                var actionResult = await _controller?.Update(Guid.Parse (TestIdUpdate), command)!;
+
+                actionResult.Should ().BeOfType<ObjectResult> ();
+
+                if ( actionResult is ObjectResult objectResult )
+                {
+                    objectResult.StatusCode.Should ().Be (500);
+                }
+            }
+        }
     }
 }

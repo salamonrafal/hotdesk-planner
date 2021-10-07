@@ -17,10 +17,12 @@ namespace Core.Validators.Reservation
                 
                 RuleFor (model => model.StartDate)
                     .NotEmpty ()
+                    .NotEqual (model => model.EndDate)
                     .When (model => model.StartDate != null);
                 
                 RuleFor (model => model.EndDate)
                     .NotEmpty ()
+                    .NotEqual (model => model.StartDate)
                     .When (model => model.EndDate != null);
                 
                 RuleFor (model => model.IsPeriodical)

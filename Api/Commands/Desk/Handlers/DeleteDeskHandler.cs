@@ -1,5 +1,4 @@
 ﻿using Api.Mappers;
-using Core.Exceptions;
 using Core.Services;
 using MediatR;
 using System.Threading;
@@ -19,8 +18,6 @@ namespace Api.Commands.Desk.Handlers
 
         public async Task<bool> Handle(DeleteDeskCommand command, CancellationToken cancellationToken)
         {
-            if (command == DeleteDeskCommand.Empty) throw new CommandEmptyException("Command is Empty");
-
             GenericDeskCommandMapper<DeleteDeskCommand, DeskModel> mapper = new();
             var desk = mapper.ConvertToModel(command);
             desk.Id = command.Id;

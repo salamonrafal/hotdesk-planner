@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Http;
-using Core.Exceptions;
 
 namespace Api.Controllers
 {
@@ -36,10 +35,6 @@ namespace Api.Controllers
 
                 return Ok (data);
             }
-            catch (CommandEmptyException)
-            {
-                return BadRequest();
-            }
             catch
             {
                 return Problem (statusCode: 500);
@@ -59,14 +54,6 @@ namespace Api.Controllers
                 var data =  await _mediator.Send(new GetDeskCommand() { Id = deskId });
                 
                 return Ok(data);
-            }
-            catch ( FluentValidation.ValidationException ex )
-            {
-                return BadRequest (ex.Message);
-            }
-            catch (CommandEmptyException)
-            {
-                return BadRequest();
             }
             catch
             {
@@ -91,10 +78,6 @@ namespace Api.Controllers
             catch ( FluentValidation.ValidationException ex )
             {
                 return BadRequest (ex.Message);
-            }
-            catch (CommandEmptyException)
-            {
-                return BadRequest();
             }
             catch
             {
@@ -121,10 +104,6 @@ namespace Api.Controllers
             {
                 return BadRequest (ex.Message);
             }
-            catch ( CommandEmptyException )
-            {
-                return BadRequest ();
-            }
             catch
             {
                 return Problem (statusCode: 500);
@@ -149,10 +128,6 @@ namespace Api.Controllers
             {
                 return BadRequest (ex.Message);
             }
-            catch ( CommandEmptyException )
-            {
-                return BadRequest ();
-            }
             catch
             {
                 return Problem (statusCode: 500);
@@ -176,10 +151,6 @@ namespace Api.Controllers
                 var data = await _mediator.Send(new SearchDeskCommand() { Query = query });
                 
                 return Ok(data);
-            }
-            catch (CommandEmptyException)
-            {
-                return BadRequest ();
             }
             catch
             {
