@@ -19,6 +19,7 @@ $cmdIntegration = "coverlet $integrationDll --target `"dotnet`" --targetargs `"t
 $cmdUnit = "coverlet $unitDll --target `"dotnet`" --targetargs `"test ./Tests/Unit --no-build`" -o `"$pathFileOutputReport`" --merge-with  `"$pathFileIntegrationReport`" --format opencover --verbosity minimal --threshold $threshold --threshold-type $thresholdType --exclude-by-file `"$excludeFiles`""
 $cmdReportGenerator = $nugetPath + "reportgenerator\4.8.13\tools\net5.0\ReportGenerator.exe  `"-reports:$pathFileOutputReport`" `"-targetdir:$pathOutputReportCoverage`" `"-reporttypes:Html;HtmlSummary;Xml`" `"-verbosity: Warning`" `"-historydir:$pathOutputHistoryCoverage`""
 
+
 Write-Output "Collecting Integration tests"
 $cmdIntegration
 Invoke-Expression $cmdIntegration

@@ -75,6 +75,7 @@ namespace Api.Controllers
                 return Ok(data);
             }
             catch ( FluentValidation.ValidationException ex )
+
             {
                 return BadRequest (ex.Message);
             }
