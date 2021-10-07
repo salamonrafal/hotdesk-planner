@@ -53,7 +53,7 @@ namespace Api.Controllers
                 var data = await _mediator.Send(new GetUserCommand() { Id = userId });
                 
                 return Ok(data);
-            }
+            } 
             catch
             {
                 return Problem (statusCode: 500);
