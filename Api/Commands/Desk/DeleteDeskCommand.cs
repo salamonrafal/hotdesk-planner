@@ -9,8 +9,6 @@ namespace Api.Commands.Desk
     {
         [JsonIgnore] public Guid Id { get; set; }
 
-        public readonly static DeleteDeskCommand Empty = new();
-
         public static implicit operator DeskModel(DeleteDeskCommand command) => new()
         {
             Id = command.Id

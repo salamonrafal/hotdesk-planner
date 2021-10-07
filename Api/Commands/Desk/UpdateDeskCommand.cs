@@ -7,8 +7,7 @@ namespace Api.Commands.Desk
 {
     public class UpdateDeskCommand : CommonDeskCommand, IRequest<bool>
     { 
-        [JsonIgnore] public Guid Id { get; set; }
-        public readonly static UpdateDeskCommand Empty = new();
+        [JsonIgnore] public Guid? Id { get; set; }
 
         public void UpdateId(Guid deskId)
         {
@@ -17,7 +16,7 @@ namespace Api.Commands.Desk
 
         public static implicit operator DeskModel(UpdateDeskCommand command) => new()
         {
-            Id = command.Id,
+            Id = command.Id ?? Guid.Empty,
             Description = command.Description,
             Localization = command.Localization,
             IsBlocked = command.IsBlocked
