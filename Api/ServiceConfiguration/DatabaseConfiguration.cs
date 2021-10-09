@@ -11,32 +11,12 @@ namespace Api.ServiceConfiguration
         public static void DatabaseConfigure(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<DatabaseOptions>(options => configuration.GetSection("Database").Bind(options));
-            
-            var dbConfig = configuration.GetSection ("Database");
-            
-            var template = dbConfig.GetValue<string>("ConnectionString");
-            var user = GetDatabaseUser(configuration);
-            var password = GetDatabasePassword(configuration);
-            var server = dbConfig.GetValue<string>("Server");
-            var database = dbConfig.GetValue<string>("Database");
-            var connectionString = string.Format(template, user, password, server, database);
-            var databaseSettings = MongoClientSettings.FromConnectionString(connectionString);
+            var connectionStringEnv = Environment.GetEnvironmentVariable ("SERVICE_MONGODB_CS");
 
-            services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(databaseSettings));
-        }
-
-        private static string GetDatabaseUser(IConfiguration configuration)
-        {
-            var dbConfig = configuration.GetSection ("Database");
-
-            return dbConfig.GetValue<string>("User");
-        }
-        
-        private static string GetDatabasePassword(IConfiguration configuration)
-        {
-            var dbConfig = configuration.GetSection ("Database");
-            
-            return dbConfig.GetValue<string>("Password");
+            services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(!string.IsNullOrEmpty (connectionStringEnv) ? 
+                connectionStringEnv : 
+                configuration.GetSection ("SERVICE_MONGODB_CS").Value
+            ));
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Core.Models
 
         [BsonElement("_documentId")]
         [BsonId(IdGenerator = typeof(CombGuidGenerator))]
-        public Guid DocumentId { get; set; }
+        public ObjectId DocumentId { get; set; }
     }
 }

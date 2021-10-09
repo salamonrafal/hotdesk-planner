@@ -10,6 +10,7 @@ using Integration.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using NUnit.Framework;
 
 namespace Integration.Tests
@@ -182,7 +183,7 @@ namespace Integration.Tests
                     response?.Localization.Should ().BeNull ();
                     response?.IsBlocked.Should ().BeNull ();
                     response?.Id.Should ().Be (Guid.Empty);
-                    response?.DocumentId.Should ().Be (Guid.Empty);
+                    response?.DocumentId.Should ().Be (ObjectId.Empty);
                 }
             }
             

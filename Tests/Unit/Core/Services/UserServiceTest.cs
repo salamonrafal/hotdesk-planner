@@ -59,7 +59,7 @@ namespace Unit.Core.Services
                 Email = "test",
                 Name = "test",
                 Password = "test",
-                DocumentId = Guid.NewGuid ()
+                DocumentId = ObjectId.GenerateNewId()
             };
             var modelOutput = new List<User> () {model};
             
@@ -83,7 +83,7 @@ namespace Unit.Core.Services
                 Email = "test",
                 Name = "test",
                 Password = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId()
             };
             
             _repository.Setup (x => x.Insert(It.IsAny<User>()));
@@ -102,7 +102,7 @@ namespace Unit.Core.Services
                 Email = "test",
                 Name = "test",
                 Password = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId()
             };
             
             _repository.Setup (x => x.Update(It.IsAny<User>()))
@@ -141,7 +141,7 @@ namespace Unit.Core.Services
                 Email = "test",
                 Name = "test",
                 Password = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId()
             };
             var modelOutput = new List<User> () {model};
             
