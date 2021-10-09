@@ -12,7 +12,10 @@
   * [Validation Types](#Validation-Types)
 * [Docker image](#Docker-image)
   * [Manual create docker image](#Manual-create-docker-image)
-  * [Manual create docker container](#Manual-create-docker-container)
+* [Manual create docker container](#Manual-create-docker-container)
+  * [Scripts to create docker images & containers](#Scripts-to-create-docker-images--containers)
+    * [Script build image](#Script-build-image)
+    * [Script create container](#Script-create-container)
 
 ## Unit & Integration tests
 
@@ -123,4 +126,22 @@ You able create manual docker container with service. Below you will find comman
 
 ```shell
 docker run -d -p 3002:3002 --name service-name helpdesk-service/dev
+```
+### Scripts to create docker images & containers
+#### Script build image
+
+**For windows:**
+```powershell
+./scripts/win/build-image.ps1 [--env=[Development|Production]] [--port=[0-9+]] [--args=[*]]
+```
+
+* _--env_ - Define environment. **Default: _Production_**
+* _--port_ - Define port for which service should listening. **Default: _3000_**
+* _--args_  - Define additional arguments.
+
+#### Script create container
+
+**For windows:** ![Win](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAALpJREFUWEftl9EKwjAMRc8cIshe9ixTETbQfZQf5QfuU5RAA0U6RtZRQVIIfWiTe3Mfmt6KMusAnIAReAC3EGO1If4e6OLiEdgV2KWwrARq4AxModgL6ENcADk3rTkCrUr0JdkdOAKa9zahJS5LoWfUhXbTLBTelMCaLpyAK+AKuAL/pUDuc56Vb52GWWBz49hngSvgCrgCrsDPv+WpJ7qoMbEMmGLWzEJK7xYxp2uISY5YPbV9sg8h+g8IuzfXpF9zwwAAAABJRU5ErkJggg==)
+```powershell
+./scripts/win/create-image.ps1
 ```
