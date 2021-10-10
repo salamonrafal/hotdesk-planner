@@ -130,18 +130,25 @@ docker run -d -p 3002:3002 --name service-name helpdesk-service/dev
 ### Scripts to create docker images & containers
 #### Script build image
 
-**For windows:** <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABS1JREFUWEfFl1tsVFUUhv+1zyC9zEw7pwVDRaBAxUtiIiqiKBUl3NqZci1EeTC+ie8YCcEaIw8Y3zT6oDHxBlYsdqYgEWIRFRAriTHRBBTkZhU6Z9p6ZoB0Zv/mnLl02k5pG9t4kkkmZ6+19rfXba8jGOvTTMM/ubc6ZSTnCOB31An0GinP7703/OfQKKmxmJRRCTfzFm+xtQaQTSSWiKCskB7BbtFoh2CPXWXuwwPSN5L9mwOQ4t1vrdeUnQqYO5Kx/HUhz1Nhp91hvoMm0cPpDgtQfCA63UjJpwAWFlZmHyhX3DXhVEAmFZLTwDFCN14LVl4utF4QwL+/6yGt1T4A03JKJKHUYZAtSSVfXF9VfgEidNdJKTrQPcOjuRIia6H1Uojk2/5TQa/pDVaeHAwxBCCzeTuA4jzhdk39QiJU+cNowuCPdC1IAbsEqjZP/pqmrh1sYwBASevVKiXGSQhuy5yMhOyKBwMv5k47GoKMV3z7Y1tJ7gREZdQ6UwYXXFtVcSlrph/ASbi22LH+mFOTsjkeMnePas8OTvJd7poN5blLA/54MPC+o1casZ4S8sNsSLTgu0Rd4LHsgXIAriDwUX/Msd0Oma8O2byJCvUwfJ2xFRAs1tTzQLlTgGqIeDLyP9tB896srjcc2wHhy3n5tNEOVTS7+eu+dOq8yPoVIrMzQu12feBJh9IJi6GM+wm6P0AeFqp1EG4DsGwY7wwAcJK0NGIdEZHFjrwGfktMC9zt9AkXwNtmbQKRdjVJBTzSG6o44QvHnqHwvSGbUB4fEwAAJzE15UR/dXCDHazYmwX4HERDZqMv7aC53Pnva4s+S8q74wHgHjQSOwRwqesFsiURqlgnaKZRWhSL5rXX5+yg+faEAIStLRC8mXF0LH7KrBR/pKdGI3U6e8okMfN6yLwwEQDl+2Kzkh6ey+5lGGqulLZFlwvlYPol++wfzaJs7x7vEKCJyjvfupGtFoLLxRuONkLkkwzVRTtozsgS+lqvzqMxoJu5S9qjI+gz7lPC6QWrgLCcBCu05m21LkIhrSdsHAigccluMG+fUICwdSnXaR2A/zUEmsvE39ozV6vUmVwSKpl1vS5wfiKSsCzcXZ0SfTaXhKLmpMuw2OoSSHk6Lthi15tvTQSAN2I9D+CNTBla8VPmlHQjao22QMmaNIAcsusDbosd7yrwRqKHAXnSTWQtexMNgQ1pgPxKICmCRf8EK46PJ4A7Z6TkeK4Vk+vtUMVn6cuog5NKOmO/ZOc+Qn8dr69YUhq+MlXEUwtIjRB3aME8gDUCtXZMdwEpJW2xowp4NOP+M/Eq857cZeR6IRLdCMieXO2K7LDrA68UrnOKry1WP+rrOBJtAuSlnK3M6dMpl33SlN86N6H7im4sNseD5scFIQa/HH4geVrID7Kup+Y38ZBZO2QgceyVHLw6Td0wTuY6lQPhjGSnAttuNloP66VCIxn0g/kT8tCh1Lm3oY7kD6UkjxoGt/bWVX4/Gm/4w9GFSZHXsjHP6CS0VrWJhvKOfBuFx/I0hDOWV+WFiBB8BUqLJyUHun8qv5DzShNV2fyemSnolRCuBfHEgLGcuKypVg/efGAODDqaM4rBMJoVsWgYFycB+Tu9xlvz5sEB4k7MOVlvTKyY0lnIzojfhr6IFdTk6yJSMxr353Jay2kx9Ha7ztx7s5F+RIBsn/D+Za3WGpsEzsepBArBkLQoql1R77arzPB//zgttEszjTJvz6ykTlYL0iAEYx54zvZ0lP0x1mr5F+v+ztGlgywzAAAAAElFTkSuQmCC" alt="Win" />
+**For windows:**
 ```powershell
 ./scripts/win/build-image.ps1 [--env=[Development|Production]] [--port=[0-9+]] [--args=[*]]
 ```
 
+**List of parameters:**
 * _--env_ - Define environment. **Default: _Production_**
 * _--port_ - Define port for which service should listening. **Default: _3000_**
 * _--args_  - Define additional arguments.
 
 #### Script create container
 
-**For windows:** <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABS1JREFUWEfFl1tsVFUUhv+1zyC9zEw7pwVDRaBAxUtiIiqiKBUl3NqZci1EeTC+ie8YCcEaIw8Y3zT6oDHxBlYsdqYgEWIRFRAriTHRBBTkZhU6Z9p6ZoB0Zv/mnLl02k5pG9t4kkkmZ6+19rfXba8jGOvTTMM/ubc6ZSTnCOB31An0GinP7703/OfQKKmxmJRRCTfzFm+xtQaQTSSWiKCskB7BbtFoh2CPXWXuwwPSN5L9mwOQ4t1vrdeUnQqYO5Kx/HUhz1Nhp91hvoMm0cPpDgtQfCA63UjJpwAWFlZmHyhX3DXhVEAmFZLTwDFCN14LVl4utF4QwL+/6yGt1T4A03JKJKHUYZAtSSVfXF9VfgEidNdJKTrQPcOjuRIia6H1Uojk2/5TQa/pDVaeHAwxBCCzeTuA4jzhdk39QiJU+cNowuCPdC1IAbsEqjZP/pqmrh1sYwBASevVKiXGSQhuy5yMhOyKBwMv5k47GoKMV3z7Y1tJ7gREZdQ6UwYXXFtVcSlrph/ASbi22LH+mFOTsjkeMnePas8OTvJd7poN5blLA/54MPC+o1casZ4S8sNsSLTgu0Rd4LHsgXIAriDwUX/Msd0Oma8O2byJCvUwfJ2xFRAs1tTzQLlTgGqIeDLyP9tB896srjcc2wHhy3n5tNEOVTS7+eu+dOq8yPoVIrMzQu12feBJh9IJi6GM+wm6P0AeFqp1EG4DsGwY7wwAcJK0NGIdEZHFjrwGfktMC9zt9AkXwNtmbQKRdjVJBTzSG6o44QvHnqHwvSGbUB4fEwAAJzE15UR/dXCDHazYmwX4HERDZqMv7aC53Pnva4s+S8q74wHgHjQSOwRwqesFsiURqlgnaKZRWhSL5rXX5+yg+faEAIStLRC8mXF0LH7KrBR/pKdGI3U6e8okMfN6yLwwEQDl+2Kzkh6ey+5lGGqulLZFlwvlYPol++wfzaJs7x7vEKCJyjvfupGtFoLLxRuONkLkkwzVRTtozsgS+lqvzqMxoJu5S9qjI+gz7lPC6QWrgLCcBCu05m21LkIhrSdsHAigccluMG+fUICwdSnXaR2A/zUEmsvE39ozV6vUmVwSKpl1vS5wfiKSsCzcXZ0SfTaXhKLmpMuw2OoSSHk6Lthi15tvTQSAN2I9D+CNTBla8VPmlHQjao22QMmaNIAcsusDbosd7yrwRqKHAXnSTWQtexMNgQ1pgPxKICmCRf8EK46PJ4A7Z6TkeK4Vk+vtUMVn6cuog5NKOmO/ZOc+Qn8dr69YUhq+MlXEUwtIjRB3aME8gDUCtXZMdwEpJW2xowp4NOP+M/Eq857cZeR6IRLdCMieXO2K7LDrA68UrnOKry1WP+rrOBJtAuSlnK3M6dMpl33SlN86N6H7im4sNseD5scFIQa/HH4geVrID7Kup+Y38ZBZO2QgceyVHLw6Td0wTuY6lQPhjGSnAttuNloP66VCIxn0g/kT8tCh1Lm3oY7kD6UkjxoGt/bWVX4/Gm/4w9GFSZHXsjHP6CS0VrWJhvKOfBuFx/I0hDOWV+WFiBB8BUqLJyUHun8qv5DzShNV2fyemSnolRCuBfHEgLGcuKypVg/efGAODDqaM4rBMJoVsWgYFycB+Tu9xlvz5sEB4k7MOVlvTKyY0lnIzojfhr6IFdTk6yJSMxr353Jay2kx9Ha7ztx7s5F+RIBsn/D+Za3WGpsEzsepBArBkLQoql1R77arzPB//zgttEszjTJvz6ykTlYL0iAEYx54zvZ0lP0x1mr5F+v+ztGlgywzAAAAAElFTkSuQmCC" alt="Win" />
+**For windows:**
 ```powershell
-./scripts/win/create-image.ps1
+./scripts/win/create-image.ps1 --name=[*] [[--env=[Production|Development]] [--port=[0-9+]] [--build-image]]
 ```
+
+**List of parameters:**
+* _--name_ - Define service name for docker. **Required**
+* _--env_ - Define environment. **Default: _Production_**
+* _--port_ - Define port for which service should listening. **Default: _3000_**
+* _--build-image_ - If image does not exist then first build the image and next the container.
