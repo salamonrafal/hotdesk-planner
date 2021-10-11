@@ -132,23 +132,23 @@ docker run -d -p 3002:3002 --name service-name helpdesk-service/dev
 
 **For windows:**
 ```powershell
-./scripts/win/build-image.ps1 [--env=[Development|Production]] [--port=[0-9+]] [--args=[*]]
+./scripts/win/build-image.ps1 [-env [Development|Production]] [-port [0-9+]] [-args [*]]
 ```
 
 **List of parameters:**
-* _--env_ - Define environment. **Default: _Production_**
-* _--port_ - Define port for which service should listening. **Default: _3000_**
-* _--args_  - Define additional arguments.
+* _-env_ - Define environment. **Default: _Production_**
+* _-port_ - Define port for which service should listening. **Default: _3000_**
+* _-args_  - Define additional arguments.
 
 #### Script create container
 
 **For windows:**
 ```powershell
-./scripts/win/create-image.ps1 --name=[*] [[--env=[Production|Development]] [--port=[0-9+]] [--build-image]]
+./scripts/win/create-image.ps1 -name [*] [[-env [Production|Development]] [-port [0-9+]] [-build-image]]
 ```
 
 **List of parameters:**
-* _--name_ - Define service name for docker. **Required**
-* _--env_ - Define environment. **Default: _Production_**
-* _--port_ - Define port for which service should listening. **Default: _3000_**
-* _--build-image_ - If image does not exist then first build the image and next the container.
+* _-name_ - Define service name for docker. **Required**
+* _-env_ - Define environment. **Default: _Production_**
+* _-port_ - Define port for which service should listening. **Default: _3000_**
+* _-buildImage_ - If image does not exist then first build the image and next the container.
