@@ -140,11 +140,17 @@ docker run -d -p 3002:3002 --name service-name helpdesk-service/dev
 * _-port_ - Define port for which service should listening. **Default: _3000_**
 * _-args_  - Define additional arguments.
 
+**Example:**
+
+```powershell
+./scripts/win/build-image.ps1 -env Development -port 3001
+```
+
 #### Script create container
 
 **For windows:**
 ```powershell
-./scripts/win/create-image.ps1 -name [*] [[-env [Production|Development]] [-port [0-9+]] [-build-image]]
+./scripts/win/create-image.ps1 -name [*] [[-env [Production|Development]] [-port [0-9+]] [-build-image 0|1]]
 ```
 
 **List of parameters:**
@@ -152,3 +158,12 @@ docker run -d -p 3002:3002 --name service-name helpdesk-service/dev
 * _-env_ - Define environment. **Default: _Production_**
 * _-port_ - Define port for which service should listening. **Default: _3000_**
 * _-buildImage_ - If image does not exist then first build the image and next the container.
+
+**Example:**
+
+```powershell
+./scripts/win/create-image.ps1 `
+-name SomeService `
+-env Development `
+-port 3001 
+```
