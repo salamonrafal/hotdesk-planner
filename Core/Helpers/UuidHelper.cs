@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using System;
+using MongoDB.Bson;
 
 
 namespace Core.Helpers
@@ -9,6 +10,7 @@ namespace Core.Helpers
         public static void GenerateUuid(this BaseModel model)
         {
             model.Id = Guid.NewGuid();
+            model.DocumentId = ObjectId.GenerateNewId();
         }
     }
 }
