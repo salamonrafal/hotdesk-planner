@@ -65,7 +65,7 @@ namespace Unit.Core.Services
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 PeriodicDetail = new PeriodicDetail (),
-                DocumentId = Guid.NewGuid ()
+                DocumentId = ObjectId.GenerateNewId()
             };
             var modelOutput = new List<Reservation> () {model};
             
@@ -92,7 +92,7 @@ namespace Unit.Core.Services
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 PeriodicDetail = new PeriodicDetail (),
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId()
             };
             
             _repository.Setup (x => x.Insert(It.IsAny<Reservation>()));
@@ -114,7 +114,7 @@ namespace Unit.Core.Services
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 PeriodicDetail = new PeriodicDetail (),
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId()
             };
             
             _repository.Setup (x => x.Update(It.IsAny<Reservation>()))
@@ -156,7 +156,7 @@ namespace Unit.Core.Services
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 PeriodicDetail = new PeriodicDetail (),
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId()
             };
             var modelOutput = new List<Reservation> () {model};
             

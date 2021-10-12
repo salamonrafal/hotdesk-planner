@@ -10,6 +10,7 @@ using Integration.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using NUnit.Framework;
 using static Integration.Helpers.MockCommands.ReservationModel;
 
@@ -183,7 +184,7 @@ namespace Integration.Tests
                     response?.IsPeriodical.Should ().BeNull ();
                     response.Should ().NotBeNull ();
                     response?.Id.Should ().Be (Guid.Empty);
-                    response?.DocumentId.Should ().Be (Guid.Empty);
+                    response?.DocumentId.Should ().Be (ObjectId.Empty);
                 }
             }
             

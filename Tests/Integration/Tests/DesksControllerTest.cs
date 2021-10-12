@@ -10,6 +10,7 @@ using Integration.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using NUnit.Framework;
 
 namespace Integration.Tests
@@ -22,7 +23,7 @@ namespace Integration.Tests
         private const string TestIdDelete = "5a3a2fec-db76-48dc-b731-60ceaa211151";
         private const string TestIdUpdate = "cd17861a-749a-47fd-8a3e-7054dd70416e";
         private const string QuerySearch = "{\"localization.floor\": 1, \"is_blocked\": true}";
-        private const int MaxElementsGetAll = 6;
+        private const int MaxElementsGetAll = 8;
         private readonly List<string> _testIdSearch = new ()
         {
             "4e89e05c-92dc-42c2-bbc5-683c5a0d71ef", 
@@ -182,7 +183,7 @@ namespace Integration.Tests
                     response?.Localization.Should ().BeNull ();
                     response?.IsBlocked.Should ().BeNull ();
                     response?.Id.Should ().Be (Guid.Empty);
-                    response?.DocumentId.Should ().Be (Guid.Empty);
+                    response?.DocumentId.Should ().Be (ObjectId.Empty);
                 }
             }
             

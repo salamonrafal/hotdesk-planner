@@ -11,8 +11,8 @@ namespace Core.Models
         [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
 
-        [BsonElement("_documentId")]
-        [BsonId(IdGenerator = typeof(CombGuidGenerator))]
-        public Guid DocumentId { get; set; }
+        [BsonElement("_id")]
+        [BsonId()]
+        public ObjectId DocumentId { get; set; }
     }
 }

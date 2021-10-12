@@ -1,5 +1,3 @@
-
-
 # hotdesk-planner
 [![.NET](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml/badge.svg)](https://github.com/salamonrafal/hotdesk-planner/actions/workflows/dotnet.yml) ![GitHub last commit](https://img.shields.io/github/last-commit/salamonrafal/hotdesk-planner?label=Last%20commit) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/salamonrafal/hotdesk-planner)
 
@@ -12,6 +10,12 @@
         * [Structure of directories](#Structure-of-directories)
 * [Model validation](#Model-validation)
   * [Validation Types](#Validation-Types)
+* [Docker image](#Docker-image)
+  * [Manual create docker image](#Manual-create-docker-image)
+  * [Manual create docker container](#Manual-create-docker-container)
+  * [Scripts to create docker images & containers](#Scripts-to-create-docker-images--containers)
+    * [Script build image](#Script-build-image)
+    * [Script create container](#Script-create-container)
 
 ## Unit & Integration tests
 
@@ -97,3 +101,69 @@ Service has defined rules of set depends what action you need  to execute:
 * _Core.Enums.ValidationModelType.Insert_
 * _Core.Enums.ValidationModelType.Update_
 * _Core.Enums.ValidationModelType.Delete_
+
+## Docker image
+
+### Manual create docker image
+You able to create manual docker image with service from source. Below you find command with description
+
+```shell
+docker build -t helpdesk-service/dev \
+  --build-arg SERVICE_BUILD_PLAN=Debug \
+  --build-arg SERVICE_PORT=3002 \
+  --build-arg SERVICE_ENV=Development \
+  --build-arg SERVICE_URL=http://+:3002 .
+```
+
+__Build arguments__
+* SERVICE_BUILD_PLAN _You can choose between ___Debug___ or ___Release____
+* SERVICE_PORT _Define for which port service will be available_
+* SERVICE_ENV _Define is it ___Production___ or ___Development___ environment_
+* SERVICE_URL _Define for which url service should listening_
+
+### Manual create docker container
+You able create manual docker container with service. Below you will find command:
+
+```shell
+docker run -d -p 3002:3002 --name service-name helpdesk-service/dev
+```
+### Scripts to create docker images & containers
+#### Script build image
+
+**For windows:**
+```powershell
+./scripts/win/build-image.ps1 [-env [Development|Production]] [-port [0-9+]] [-args [*]]
+```
+
+**List of parameters:**
+* _-env_ - Define environment. **Default: _Production_**
+* _-port_ - Define port for which service should listening. **Default: _3000_**
+* _-args_  - Define additional arguments.
+
+**Example:**
+
+```powershell
+./scripts/win/build-image.ps1 -env Development -port 3001
+```
+
+#### Script create container
+
+**For windows:**
+```powershell
+./scripts/win/create-image.ps1 -name [*] [[-env [Production|Development]] [-port [0-9+]] [-build-image 0|1]]
+```
+
+**List of parameters:**
+* _-name_ - Define service name for docker. **Required**
+* _-env_ - Define environment. **Default: _Production_**
+* _-port_ - Define port for which service should listening. **Default: _3000_**
+* _-buildImage_ - If image does not exist then first build the image and next the container.
+
+**Example:**
+
+```powershell
+./scripts/win/create-image.ps1 `
+-name SomeService `
+-env Development `
+-port 3001 
+```

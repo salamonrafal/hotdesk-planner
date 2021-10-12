@@ -10,6 +10,7 @@ using Integration.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using static Integration.Helpers.MockCommands.UserModel;
 using NUnit.Framework;
 
@@ -188,7 +189,7 @@ namespace Integration.Tests
                     response?.UrlAvatar.Should ().BeNull ();
                     response.Should ().NotBeNull ();
                     response?.Id.Should ().Be (Guid.Empty);
-                    response?.DocumentId.Should ().Be (Guid.Empty);
+                    response?.DocumentId.Should ().Be (ObjectId.Empty);
                 }
             }
             

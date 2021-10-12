@@ -37,7 +37,7 @@ namespace Unit.Core.Services
             {
                 Id = modelInput.Id,
                 Description = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId(),
                 IsBlocked = false,
                 Localization = new Localization ()
             };
@@ -58,7 +58,7 @@ namespace Unit.Core.Services
             {
                 Id = Guid.NewGuid (),
                 Description = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId(),
                 IsBlocked = false,
                 Localization = new Localization ()
             };
@@ -82,7 +82,7 @@ namespace Unit.Core.Services
             {
                 Id = Guid.NewGuid (),
                 Description = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId(),
                 IsBlocked = false,
                 Localization = new Localization ()
             };
@@ -101,7 +101,7 @@ namespace Unit.Core.Services
             {
                 Id = Guid.NewGuid (),
                 Description = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId(),
                 IsBlocked = false,
                 Localization = new Localization ()
             };
@@ -140,7 +140,7 @@ namespace Unit.Core.Services
             {
                 Id = id,
                 Description = "test",
-                DocumentId = Guid.NewGuid (),
+                DocumentId = ObjectId.GenerateNewId(),
                 IsBlocked = false,
                 Localization = new Localization ()
             };

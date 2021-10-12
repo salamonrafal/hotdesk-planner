@@ -35,9 +35,9 @@ namespace Api.Controllers
 
                 return Ok (data);
             }
-            catch
+            catch(Exception ex)
             {
-                return Problem (statusCode: 500);
+                return Problem (statusCode: 500, detail: ex.Message);
             }
         }
 
@@ -55,9 +55,9 @@ namespace Api.Controllers
                 
                 return Ok(data);
             }
-            catch
+            catch(Exception ex)
             {
-                return Problem (statusCode: 500);
+                return Problem (statusCode: 500, detail: ex.Message);
             }
             
         }
@@ -79,9 +79,9 @@ namespace Api.Controllers
             {
                 return BadRequest (ex.Message);
             }
-            catch
+            catch(Exception ex)
             {
-                return Problem (statusCode: 500);
+                return Problem (statusCode: 500, detail: ex.Message);
             }
         }
 

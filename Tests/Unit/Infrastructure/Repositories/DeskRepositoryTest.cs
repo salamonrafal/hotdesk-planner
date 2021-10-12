@@ -50,12 +50,7 @@ namespace Unit.Infrastructure.Repositories
             
             _options = Options.Create (new DatabaseOptions ()
             {
-                Database = "test",
-                Password = "test",
-                Server = "test",
-                Type = "test",
-                User = "test",
-                ConnectionString = "test"
+                Database = "test"
             });
             
             _repository = new DeskRepository<Desk> (_mongoClientMock.Object, _options);
