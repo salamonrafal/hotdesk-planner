@@ -83,12 +83,6 @@ namespace Infrastructure.Repositories
             if (model.Email != null)
                 update.Add(Builders<TClass>.Update.Set("email", model.Email));
 
-
-            if (model.Role != null)
-            {
-               // update.Add(Builders<TClass>.Update.Set("is_periodical", model.IsPeriodical));
-            }
-
             var combineUpdate = Builders<TClass>.Update.Combine(update);
 
             return combineUpdate;
