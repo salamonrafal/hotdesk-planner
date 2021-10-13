@@ -81,7 +81,14 @@ namespace Infrastructure.Repositories
 
             if (model.PeriodicDetail != null)
             {
-                // ToDo: fill this
+                if (model.PeriodicDetail.Days != null)
+                    update.Add(Builders<TClass>.Update.Set("periodic_detail.days", model.PeriodicDetail.Days)); 
+                
+                if (model.PeriodicDetail.RepeatType != null)
+                    update.Add(Builders<TClass>.Update.Set("periodic_detail.repeat_type", model.PeriodicDetail.RepeatType));
+                
+                if (model.PeriodicDetail.RepeatCount != null)
+                    update.Add(Builders<TClass>.Update.Set("periodic_detail.repeat_count", model.PeriodicDetail.RepeatCount));
             }
 
             var combineUpdate = Builders<TClass>.Update.Combine(update);
